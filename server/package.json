@@ -1,0 +1,20 @@
+{
+  "name": "library-of-babel-server",
+  "version": "1.0.0",
+  "description": "api to link Ethereum smart contract to NuCypher nodes and a DB",
+  "main": "index.js",
+  "scripts": {
+    "test": "test-server"
+  },
+  "author": "Sam Steele",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "mongoose": "^5.5.4",
+    "superagent": "^5.0.3"
+  }
+}
