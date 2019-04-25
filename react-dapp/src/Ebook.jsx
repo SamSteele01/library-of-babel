@@ -23,7 +23,7 @@ const styles = {
 };
 
 function MediaCard(props) {
-  const { classes, index, title, image, desc, price, purchase } = props;
+  const { classes, index, title, image, desc, price, purchase, view } = props;
 
   return (
     <Card className={classes.card}>
@@ -46,12 +46,25 @@ function MediaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button variant="contained" size="small" color="primary" onClick={event => purchase(index)}>
-          Buy
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
+        {purchase && (
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            onClick={event => purchase(index)}
+          >
+            Buy
+          </Button>
+        )}
+        {view && (
+          <Button
+            size="small"
+            color="primary" 
+            onClick={event => view(index)}
+          >
+            Learn More
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

@@ -52,12 +52,8 @@ export default class EbookList extends Component {
     this.setState({ books })
   }
 
-  purchaseFunction = (index) => {
-    // detect web3
-
-    // convert price to eth
-
-    // render checkout component
+  view = (index) => {
+    // render Purchase component
     this.props.setBook(bookDataObjects[index]);
   }
 
@@ -73,7 +69,7 @@ export default class EbookList extends Component {
             image={book.image}
             desc={book.desc}
             price={book.price}
-            purchase={this.purchaseFunction}
+            view={this.view}
           />
         )
       })
