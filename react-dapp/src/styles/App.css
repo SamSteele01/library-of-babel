@@ -35,5 +35,10 @@
 .ebook-list {
   display: flex;
   flex-wrap: wrap;
+}
 
+.web3-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
