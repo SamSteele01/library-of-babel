@@ -1,10 +1,11 @@
-import React from 'react';
-// import logo from './logo.svg';
-import fortmatic from './fortmatic';
-import GetAccounts from './GetAccounts';
-import './App.css';
+import React, { useState } from 'react';
+
+import EbookList from './EbookList';
+import Purchase from './Purchase';
+import './styles/App.css';
 
 function App() {
+  const [book, setBook] = useState(null);
   return (
     <div className="App">
       <header className="App-header">
@@ -14,7 +15,16 @@ function App() {
         </p>
       </header>
       {/* ebook list */}
-      <GetAccounts />
+      {book ? (
+        <Purchase
+          book={book}
+          setBook={setBook}
+        />
+      ) : (
+        <EbookList
+          setBook={setBook}
+        />
+      )}
     </div>
   );
 }
