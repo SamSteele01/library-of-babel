@@ -13,7 +13,7 @@ import BookIcon from './styles/book-icon.png';
 
 const styles = {
   card: {
-    maxWidth: 345,
+    width: 345,
     margin: 10,
   },
   media: {
@@ -41,7 +41,7 @@ function MediaCard(props) {
             {desc}
           </Typography>
           <Typography component="p">
-            $ {price}
+            $ {price} Eth
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -51,7 +51,7 @@ function MediaCard(props) {
             variant="contained"
             size="small"
             color="primary"
-            onClick={event => purchase(index)}
+            onClick={event => purchase(true)}
           >
             Buy
           </Button>
@@ -59,7 +59,7 @@ function MediaCard(props) {
         {view && (
           <Button
             size="small"
-            color="primary" 
+            color="primary"
             onClick={event => view(index)}
           >
             Learn More
