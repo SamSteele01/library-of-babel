@@ -1,27 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-import GetAccounts from './GetAccounts';
+import Web3Banner from './Web3Banner';
 import Ebook from './Ebook';
+import Confirm from './Confirm';
+import withContract from './withContract';
 
-export default function Purchase(props) {
+// purchase onClick needs to get web3, then call contract function
+export default function Purchase({ book, setBook }) {
+  const [displayWeb3, setDisplay] = useState(false);
+  const [account, setAccount] = useState(false);
+
+  const ConfirmAndSend = withContract(Confirm, abi, contractAddress);
+
   return (
     <div>
-      <GetAccounts />
-      <Button size="small" color="primary" onClick={event => props.setBook(null)}>
+      {displayWeb3 &&
+        <Web3Banner
+          accountReady={setAccount}
+        />
+      }
+      <Button size="small" color="primary" onClick={event => setBook(null)}>
         Back
       </Button>
-      {/* Id: {props.book} */}
+      {/* Id: {book} */}
       <Ebook
-        key={props.book.id}
-        index={props.book.index}
-        title={props.book.title}
-        image={props.book.image}
-        desc={props.book.desc}
-        price={props.book.price}
-        // purchase={this.purchaseFunction}
+        key={book.id}
+        index={book.index}
+        title={book.title}
+        image={book.image}
+        desc={book.desc}
+        price={book.price}
+        purchase={setDisplay}
       />
+      {account &&
+        <ConfirmAndSend
+          account={account}
+          bookId={book.id}
+          price={book.price}
+        />
+      }
     </div>
   );
 }
