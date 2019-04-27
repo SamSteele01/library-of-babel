@@ -1,0 +1,73 @@
+version: '3'
+services:
+  api:
+    image: node:10.15.3-alpine
+    ports:
+      - 8080:8080
+      # - 3000:3000 #DEV
+    command: sh -c "yarn install && sleep 5 && yarn start" #XXX: sleep 5 to give mongodb time to actually start :)
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - .:/app
+
+  mongo:
+    image: mongo:4.1.2-xenial
+    restart: always
+    # env_file: .env
+    #NOTE: Example override
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    # volumes:
+    #   - /my/custom:/etc/mongo
+
+  nucypher-alice:
+    command: nucypher alice run --dev --network eth_denver --teacher-uri 18.217.28.35:9151
+    environment:
+      - NUCYPHER_SENTRY_LOGS=0
+    image: nucypher:latest
+    container_name: nucypher-alice
+    ports:
+      - "8151:8151"
+    build:
+      context: "$NUCYPHER_HOME"
+      dockerfile: "$NUCYPHER_HOME/deploy/docker/Dockerfile"
+    volumes:
+      - ~/.local/share/nucypher:/nucypher
+    stdin_open: true
+    tty: true
+
+  nucypher-bob:
+    command: nucypher bob run --dev --network eth_denver --teacher-uri 18.217.28.35:9151
+    environment:
+      - NUCYPHER_SENTRY_LOGS=0
+    image: nucypher:latest
+    container_name: nucypher-bob
+    ports:
+      - "11151:11151"
+    build:
+      context: "${NUCYPHER_HOME}"
+      dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
+    volumes:
+      - ~/.local/share/nucypher:/nucypher
+    stdin_open: true
+    tty: true
+
+  nucypher-enrico:
+    command: '/usr/local/bin/get-alices-key'
+    environment:
+      - NUCYPHER_SENTRY_LOGS=0
+    depends_on:
+      - nucypher-alice
+    image: nucypher:latest
+    container_name: nucypher-enrico
+    ports:
+      - "5151:5151"
+    build:
+      context: "${NUCYPHER_HOME}"
+      dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
+    volumes:
+      - ~/.local/share/nucypher:/nucypher
+    stdin_open: true
+    tty: true
