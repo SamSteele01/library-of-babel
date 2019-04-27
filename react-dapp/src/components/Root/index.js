@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import NavBar from "../NavBar";
+import Header from "../Header";
 import EbookList from "../Listings";
 import Purchase from "../Purchase";
 import "./index.css";
@@ -8,8 +8,8 @@ import "./index.css";
 function Root() {
   const [book, setBook] = useState(null);
   return (
-    <div className="App">
-      <NavBar />
+    <div className="Root">
+      <Header />
       {/* ebook list */}
       {book ? (
         <Purchase book={book} setBook={setBook} />

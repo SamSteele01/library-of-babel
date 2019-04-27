@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./index.css";
 
-function NavBar() {
+function Header() {
   const [book, setBook] = useState(null);
   return (
     <div>
@@ -14,4 +14,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default Header;
