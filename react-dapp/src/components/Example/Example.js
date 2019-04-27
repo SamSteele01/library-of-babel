@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { styled } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
+import { Menu, CloudDownload, Print, Bookmark } from "@material-ui/icons";
 
 const styles = theme => ({
   button: {
@@ -27,6 +28,11 @@ function Example(props) {
   const { classes } = props;
   return (
     <div>
+      {" "}
+      <Menu />
+      <CloudDownload />
+      <Print />
+      <Bookmark />
       <MyButton>Custom Button</MyButton>
       <Button variant="contained" className={classes.button}>
         Default

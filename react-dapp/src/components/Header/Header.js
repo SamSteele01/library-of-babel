@@ -12,10 +12,6 @@ function Header() {
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <p>Library of Babel</p>
         <Example />
-        <Menu />
-        <CloudDownload />
-        <Print />
-        <Bookmark />
       </header>
     </div>
   );
