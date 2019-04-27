@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import { CardLoader } from './CardLoader';
-import Ebook from './Ebook';
+import { CardLoader } from "../CardLoader";
+import Ebook from "../Ebook";
 
 const bookDataObjects = [
   {
@@ -26,19 +26,18 @@ const bookDataObjects = [
     desc: "someText",
     price: "dollars"
   }
-]
+];
 
 export default class EbookList extends Component {
-
   static propTypes = {
-    setBook: PropTypes.func.isRequired,
+    setBook: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      books: null,
+      books: null
     };
   }
 
@@ -49,16 +48,16 @@ export default class EbookList extends Component {
   getBooks = () => {
     // api call to db. Hardcode for now
     let books = bookDataObjects;
-    this.setState({ books })
-  }
+    this.setState({ books });
+  };
 
-  view = (index) => {
+  view = index => {
     // render Purchase component
     this.props.setBook(bookDataObjects[index]);
-  }
+  };
 
   render() {
-    let bookList = <CardLoader />
+    let bookList = <CardLoader />;
     if (this.state.books) {
       bookList = this.state.books.map((book, index) => {
         return (
@@ -71,15 +70,10 @@ export default class EbookList extends Component {
             price={book.price}
             view={this.view}
           />
-        )
-      })
+        );
+      });
     }
 
-    return (
-      <div className="ebook-list">
-        {bookList}
-      </div>
-    );
+    return <div className="ebook-list">{bookList}</div>;
   }
-
 }
