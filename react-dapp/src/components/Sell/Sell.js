@@ -22,14 +22,14 @@ const styles = {
   }
 };
 
-function Info(props) {
+function Sell(props) {
   const { classes, index, title, image, desc, price, purchase, view } = props;
 
   return (
     <Card className={classes.card}>
       <CardActionArea>
         <Typography gutterBottom variant="h5" component="h2">
-          INFO CARD
+          SELL CARD
         </Typography>
         <CardMedia
           className={classes.media}
@@ -65,9 +65,9 @@ function Info(props) {
   );
 }
 
-Info.propTypes = {
+Sell.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(Info);
+export default withStyles(styles)(Sell);

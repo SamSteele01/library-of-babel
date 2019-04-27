@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-import Header from "../Header";
 import EbookList from "../Listings";
+import Header from "../Header";
 import Info from "../Info";
 import Purchase from "../Purchase";
+import Sell from "../Sell";
+
 import "./index.css";
 
 function Root() {
@@ -18,6 +20,7 @@ function Root() {
         <EbookList setBook={setBook} />
       )}
       <Info />
+      <Sell />
     </div>
   );
 }
