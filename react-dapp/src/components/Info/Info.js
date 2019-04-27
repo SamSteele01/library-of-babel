@@ -13,8 +13,8 @@ import BookIcon from "../../styles/book-icon.png";
 
 const styles = {
   card: {
-    width: 345,
-    margin: 10
+    width: "94%",
+    margin: "3%"
   },
   media: {
     height: 140,
@@ -22,7 +22,7 @@ const styles = {
   }
 };
 
-function MediaCard(props) {
+function Ebook(props) {
   const { classes, index, title, image, desc, price, purchase, view } = props;
 
   return (
@@ -62,9 +62,9 @@ function MediaCard(props) {
   );
 }
 
-MediaCard.propTypes = {
+Ebook.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(MediaCard);
+export default withStyles(styles)(Ebook);
