@@ -1,10 +1,12 @@
 const superagent = require('superagent');
-const web3 = require('web3');
+const Web3 = require('web3');
 const Purchases = require('../models/purchase');
 const ipfsClient = require('ipfs-http-client')
 
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
-const paidAccessContract = web3.eth.Contract(abi, address);
+
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:9545'));
+// const paidAccessContract = web3.eth.Contract(abi, address);
 
 class PurchaseCtrl {
 
@@ -51,8 +53,8 @@ class PurchaseCtrl {
       // this.validate(req);
 
       /* check contract */
-      paidAccessContract.methods.hasPaid(ethAddress, label).call(
-        await (error, result) => {
+      // paidAccessContract.methods.hasPaid(ethAddress, label).call(
+        (error, result) => {
           if (error) {
             throw error;
           } else {
@@ -60,7 +62,7 @@ class PurchaseCtrl {
             req.body.hasPaid = result;
           }
         }
-      )
+      // )
 
       if (req.body.hasPaid !== true) throw 'That content has not been paid for.'
 
@@ -80,7 +82,7 @@ class PurchaseCtrl {
           n: 5,
           expiration_time: '' // '2019-02-19T12:56:26.976816'
         })
-        .end(await (err, response) => {
+        .end((err, response) => {
           if (err) {
             throw err;
           } else {
@@ -111,7 +113,7 @@ class PurchaseCtrl {
           alice_signing_pubkey: req.body.key,
           label: req.body.label,
         })
-        .end(await (err, response) => {
+        .end((err, response) => {
           if (err) {
             throw err;
           } else {
@@ -146,12 +148,12 @@ class PurchaseCtrl {
         .post('localhost:11151/retrieve') // bob node
         .send({
           label: req.body.label,
-          alice_signing_pubkey: req.body.key,
-          policy_encrypting_pubkey: ,
+          alice_signing_pubkey: req.body.signingKey,
+          policy_encrypting_pubkey: req.body.pubKey,
           datasource_signing_pubkey: data.signature, // signature
           message_kit: data.message_kit
         })
-        .end(await (err, response) => {
+        .end((err, response) => {
           if (err) {
             throw err;
           } else {
@@ -170,3 +172,4 @@ class PurchaseCtrl {
   }
 
 }
+export default new PurchaseCtrl();

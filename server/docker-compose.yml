@@ -1,15 +1,20 @@
 version: '3'
 services:
   api:
-    image: node:10.15.3-alpine
+    build: .
+    # image: node:10.15.3-alpine
     ports:
       - 8080:8080
       # - 3000:3000 #DEV
-    command: sh -c "yarn install && sleep 5 && yarn start" #XXX: sleep 5 to give mongodb time to actually start :)
+    #NOTE: sleep 5 to give mongodb time to actually start
+    # python needed for node-gyp
+    # command: sh -c "apk update && apk add python && yarn install && sleep 5 && yarn run server"
+    command: sh -c "yarn install && yarn run server"
     working_dir: /app
     env_file: .env
     volumes:
       - .:/app
+      # - /app/node_modules
 
   mongo:
     image: mongo:4.1.2-xenial
@@ -22,52 +27,52 @@ services:
     # volumes:
     #   - /my/custom:/etc/mongo
 
-  nucypher-alice:
-    command: nucypher alice run --dev --network eth_denver --teacher-uri 18.217.28.35:9151
-    environment:
-      - NUCYPHER_SENTRY_LOGS=0
-    image: nucypher:latest
-    container_name: nucypher-alice
-    ports:
-      - "8151:8151"
-    build:
-      context: "$NUCYPHER_HOME"
-      dockerfile: "$NUCYPHER_HOME/deploy/docker/Dockerfile"
-    volumes:
-      - ~/.local/share/nucypher:/nucypher
-    stdin_open: true
-    tty: true
+  # nucypher-alice:
+  #   command: nucypher alice run --dev --federated-only --network devnet --teacher-uri 18.222.119.242:9151
+  #   environment:
+  #     - NUCYPHER_SENTRY_LOGS=0
+  #   image: itmustbejj/nucypher:latest
+  #   container_name: nucypher-alice
+  #   ports:
+  #     - "8151:8151"
+  #   # build:
+  #   #   context: "$NUCYPHER_HOME"
+  #   #   dockerfile: "$NUCYPHER_HOME/deploy/docker/Dockerfile"
+  #   volumes:
+  #     - ~/.local/share/nucypher:/nucypher
+  #   stdin_open: true
+  #   tty: true
+  #
+  # nucypher-bob:
+  #   command: nucypher bob run --dev --federated-only --network devnet --teacher-uri 18.222.119.242:9151
+  #   environment:
+  #     - NUCYPHER_SENTRY_LOGS=0
+  #   image: itmustbejj/nucypher:latest
+  #   container_name: nucypher-bob
+  #   ports:
+  #     - "11151:11151"
+  #   # build:
+  #   #   context: "${NUCYPHER_HOME}"
+  #   #   dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
+  #   volumes:
+  #     - ~/.local/share/nucypher:/nucypher
+  #   stdin_open: true
+  #   tty: true
 
-  nucypher-bob:
-    command: nucypher bob run --dev --network eth_denver --teacher-uri 18.217.28.35:9151
-    environment:
-      - NUCYPHER_SENTRY_LOGS=0
-    image: nucypher:latest
-    container_name: nucypher-bob
-    ports:
-      - "11151:11151"
-    build:
-      context: "${NUCYPHER_HOME}"
-      dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
-    volumes:
-      - ~/.local/share/nucypher:/nucypher
-    stdin_open: true
-    tty: true
-
-  nucypher-enrico:
-    command: '/usr/local/bin/get-alices-key'
-    environment:
-      - NUCYPHER_SENTRY_LOGS=0
-    depends_on:
-      - nucypher-alice
-    image: nucypher:latest
-    container_name: nucypher-enrico
-    ports:
-      - "5151:5151"
-    build:
-      context: "${NUCYPHER_HOME}"
-      dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
-    volumes:
-      - ~/.local/share/nucypher:/nucypher
-    stdin_open: true
-    tty: true
+  # nucypher-enrico:
+  #   command: nucypher enrico run
+  #   environment:
+  #     - NUCYPHER_SENTRY_LOGS=0
+  #   depends_on:
+  #     - nucypher-alice
+  #   image: itmustbejj/nucypher:latest
+  #   container_name: nucypher-enrico
+  #   ports:
+  #     - "5151:5151"
+  #   # build:
+  #   #   context: "${NUCYPHER_HOME}"
+  #   #   dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
+  #   volumes:
+  #     - ~/.local/share/nucypher:/nucypher
+  #   stdin_open: true
+  #   tty: true

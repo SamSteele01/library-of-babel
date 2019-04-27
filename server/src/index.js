@@ -1,13 +1,20 @@
 // index.js
+import AccountCtrl from './controllers/accountCtrl';
+import BookCtrl from './controllers/bookCtrl';
+import PurchaseCtrl from './controllers/purchaseCtrl';
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const cors = require('cors');
-const db = require('./db');
 // var path = require('path');
+const db = require('./db');
+// const AccountCtrl = require('./controllers/accountCtrl');
+// const BookCtrl = require('./controllers/bookCtrl');
+// const PurchaseCtrl = require('./controllers/purchaseCtrl');
 
-const router = express.Router();
+// const router = express.Router();
+// const app = express();
 
 const port = process.env.PORT || 8080;
 
@@ -46,6 +53,7 @@ app.use(cors());
 /* ---------------------- Routes ---------------------- */
 
 // get account if it exists
+console.log('ACCOUNTCTRL.GET', AccountCtrl.get);
 app.get('/account', AccountCtrl.get);
 
 // save new ethAddress in new account

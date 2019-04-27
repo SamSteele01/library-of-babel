@@ -82,7 +82,7 @@ class BookCtrl {
       superagent
         .put('localhost:8151/derive_policy_pubkey')
         .send({ label: req.body.label })
-        .end(await (err, response) => {
+        .end((err, response) => {
           if (err) {
             throw err;
           } else {
@@ -100,3 +100,4 @@ class BookCtrl {
   }
 
 }
+export default new BookCtrl();

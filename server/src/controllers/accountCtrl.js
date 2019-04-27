@@ -54,3 +54,4 @@ class AccountCtrl {
   };
 
 }
+export default new AccountCtrl();

@@ -11,8 +11,6 @@ let AccountSchema = new Schema(
     address: { type: String, required: true, unique: true },
     signingKey: { type: String },
     encryptingKey: { type: String },
-    uploads: [UploadSchema],
-    purchases: [PurchaseSchema]
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );
