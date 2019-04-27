@@ -1,5 +1,7 @@
 import React from "react";
 
+import Example from "../Example";
+
 import "./index.css";
 
 function Header() {
@@ -8,6 +10,7 @@ function Header() {
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <p>Library of Babel</p>
+        <Example />
       </header>
     </div>
   );
