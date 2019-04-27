@@ -1,73 +1,77 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
+import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 
-import BookIcon from "../../styles/book-icon.png";
-
-const styles = {
-  card: {
-    width: "94%",
-    margin: "3%"
+const styles = theme => ({
+  root: {
+    width: "96%",
+    backgroundColor: theme.palette.background.paper
   },
-  media: {
-    height: 140,
-    backgroundSize: "contain"
+  chip: {
+    marginRight: theme.spacing.unit
+  },
+  section1: {
+    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
+  },
+  section2: {
+    margin: theme.spacing.unit * 2
+  },
+  section3: {
+    margin: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 2}px ${theme
+      .spacing.unit * 2}px`
   }
-};
+});
 
-function Info(props) {
-  const { classes, index, title, image, desc, price, purchase, view } = props;
-
+function MiddleDividers(props) {
+  const { classes } = props;
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <Typography gutterBottom variant="h5" component="h2">
-          INFO CARD
+    <div className={classes.root}>
+      <div className={classes.section1}>
+        <Grid container alignItems="center">
+          <Grid item xs>
+            <Typography gutterBottom variant="h4">
+              Toothbrush
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography gutterBottom variant="h6">
+              $4.50
+            </Typography>
+          </Grid>
+        </Grid>
+        <Typography color="textSecondary">
+          Pinstriped cornflower blue cotton blouse takes you on a walk to the
+          park or just down the hall.
         </Typography>
-        <CardMedia
-          className={classes.media}
-          image={image ? image : BookIcon}
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {title}
-          </Typography>
-          <Typography component="p">{desc}</Typography>
-          <Typography component="p">$ {price} Eth</Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        {purchase && (
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            onClick={event => purchase(true)}
-          >
-            Buy
-          </Button>
-        )}
-        {view && (
-          <Button size="small" color="primary" onClick={event => view(index)}>
-            Learn More
-          </Button>
-        )}
-      </CardActions>
-    </Card>
+      </div>
+      <Divider variant="middle" />
+      <div className={classes.section2}>
+        <Typography gutterBottom variant="body1">
+          Select type
+        </Typography>
+        <div>
+          <Chip className={classes.chip} label="Extra Soft" />
+          <Chip className={classes.chip} label="Soft" />
+          <Chip className={classes.chip} label="Medium" />
+          <Chip className={classes.chip} label="Hard" />
+        </div>
+      </div>
+      <div className={classes.section3}>
+        <Button variant="contained" color="primary" fullWidth>
+          Add to cart
+        </Button>
+      </div>
+    </div>
   );
 }
 
-Info.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired
+MiddleDividers.propTypes = {
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Info);
+export default withStyles(styles)(MiddleDividers);
