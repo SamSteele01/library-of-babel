@@ -1,25 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
-import BookIcon from './styles/book-icon.png';
+import BookIcon from "../../styles/book-icon.png";
 
 const styles = {
   card: {
     width: 345,
-    margin: 10,
+    margin: 10
   },
   media: {
     height: 140,
     backgroundSize: "contain"
-  },
+  }
 };
 
 function MediaCard(props) {
@@ -37,12 +37,8 @@ function MediaCard(props) {
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <Typography component="p">
-            {desc}
-          </Typography>
-          <Typography component="p">
-            $ {price} Eth
-          </Typography>
+          <Typography component="p">{desc}</Typography>
+          <Typography component="p">$ {price} Eth</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -57,11 +53,7 @@ function MediaCard(props) {
           </Button>
         )}
         {view && (
-          <Button
-            size="small"
-            color="primary"
-            onClick={event => view(index)}
-          >
+          <Button size="small" color="primary" onClick={event => view(index)}>
             Learn More
           </Button>
         )}
@@ -72,8 +64,7 @@ function MediaCard(props) {
 
 MediaCard.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-
+  title: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(MediaCard);

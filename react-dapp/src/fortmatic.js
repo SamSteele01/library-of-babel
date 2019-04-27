@@ -1,4 +1,4 @@
-import Fortmatic from 'fortmatic';
+import Fortmatic from './fortmatic';
 // Works for web3 1.0 and pre-1.0 versions
 import Web3 from 'web3';
 
