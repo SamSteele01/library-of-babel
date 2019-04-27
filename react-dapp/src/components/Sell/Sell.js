@@ -14,7 +14,9 @@ import Divider from "@material-ui/core/Divider";
 
 const styles = theme => ({
   root: {
-    width: "100%"
+    width: "94%",
+    margin: "3%",
+    border: "2px solid black"
   },
   heading: {
     fontSize: theme.typography.pxToRem(15)

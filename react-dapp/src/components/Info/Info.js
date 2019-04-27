@@ -9,7 +9,9 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
-    width: "96%",
+    width: "94%",
+    margin: "3%",
+    border: "2px solid black",
     backgroundColor: theme.palette.background.paper
   },
   chip: {
