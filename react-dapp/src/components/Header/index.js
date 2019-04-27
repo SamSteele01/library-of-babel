@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./index.css";
 
 function Header() {
-  const [book, setBook] = useState(null);
   return (
     <div>
       <header className="App-header">
