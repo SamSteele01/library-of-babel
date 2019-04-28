@@ -42,7 +42,13 @@ const styles = theme => ({
     "&:hover": {
       textDecoration: "underline"
     }
-  }
+  },
+  sectionContainer: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  sectionLeft: { flexBasis: "50%", display: "flex", flexDirection: "column" },
+  sectionRight: { flexBasis: "50%", display: "flex", flexDirection: "column" }
 });
 
 function Sell(props) {
@@ -69,23 +75,32 @@ function Sell(props) {
           </div>
         </div>
         <Divider />
+        <div className={classes.sectionContainer}>
+          <div className={classes.sectionLeft}>
+            <div>art upload component</div>
+            <div>test file upload component</div>
+            <div>listing instructions component</div>
+          </div>
+          <div className={classes.sectionRight}>
+            <div>
+              <TextInput />
+            </div>
+            <div>
+              <TextInput />
+            </div>
+            <div>
+              <TextInput />
+            </div>
+            <div>
+              <TextInput multiline={true} />
+            </div>
+          </div>
+        </div>
         <div>
           <Button size="small">Cancel</Button>
           <Button size="small" color="primary">
             Save
           </Button>
-        </div>
-        <div>
-          <TextInput />
-        </div>
-        <div>
-          <TextInput />
-        </div>
-        <div>
-          <TextInput />
-        </div>
-        <div>
-          <TextInput multiline={true} />
         </div>
       </div>
     </div>
