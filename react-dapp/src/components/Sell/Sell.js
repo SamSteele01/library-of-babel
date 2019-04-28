@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import TextInput from "../common/TextInput";
 import Upload from "../common/Upload";
+import InfoSheet from "../common/InfoSheet";
+import TitleDisplay from "../common/TitleDisplay";
 
 const styles = theme => ({
   root: {
@@ -58,30 +60,32 @@ function Sell(props) {
     <div className={classes.root}>
       <div>
         <div className={classes.details}>
-          <div className={classes.column}>
-            <Chip
-              label="Barbados"
-              className={classes.chip}
-              onDelete={() => {}}
-            />
-          </div>
-          <div className={classNames(classes.column, classes.helper)}>
-            <Typography variant="caption">
-              Select your destination of choice
-              <br />
-              <a href="#sub-labels-and-columns" className={classes.link}>
-                Learn more
-              </a>
-            </Typography>
-          </div>
+          <TitleDisplay />
         </div>
         <Divider />
         <div className={classes.sectionContainer}>
           <div className={classes.sectionLeft}>
-            <div>art upload component</div>
-            <div>test file upload component</div>
-            <div>listing instructions component</div>
-            <Upload />
+            <div>
+              art upload component
+              <Upload />
+            </div>
+            <div>
+              test file upload component
+              <Upload />
+            </div>
+            <div>
+              listing instructions component
+              <InfoSheet />
+            </div>
+            <div className={classNames(classes.column, classes.helper)}>
+              <Typography variant="caption">
+                Select your destination of choice
+                <br />
+                <a href="#sub-labels-and-columns" className={classes.link}>
+                  Learn more
+                </a>
+              </Typography>
+            </div>
           </div>
           <div className={classes.sectionRight}>
             <div>
@@ -103,6 +107,13 @@ function Sell(props) {
           <Button size="small" color="primary">
             Save
           </Button>
+          <div className={classes.column}>
+            <Chip
+              label="Barbados"
+              className={classes.chip}
+              onDelete={() => {}}
+            />
+          </div>
         </div>
       </div>
     </div>
