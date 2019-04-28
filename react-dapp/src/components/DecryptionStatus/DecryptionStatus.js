@@ -9,7 +9,11 @@ const styles = theme => ({
     height: 780,
     width: "94%",
     margin: "3%"
-  }
+  },
+  titleSection: {},
+  processSection: {},
+  statusSection: {},
+  readerSection: {}
 });
 
 function PaperSheet(props) {

@@ -9,7 +9,11 @@ const styles = theme => ({
     height: 780,
     width: "94%",
     margin: "3%"
-  }
+  },
+  listingStatusSection: {},
+  processSection: {},
+  listingInfoSection: {},
+  sellerInterfaceSection: {}
 });
 
 function PaperSheet(props) {
