@@ -17,13 +17,18 @@ function PaperSheet(props) {
 
   return (
     <Paper className={classes.root} elevation={1}>
-      <Typography variant="h5" component="h3">
-        This is a sheet of paper.
-      </Typography>
-      <Typography component="p">
-        Paper can be used to build surface or other elements for your
-        application.
-      </Typography>
+      <div className={classes.titleSection}>
+        <Typography variant="h5" component="h3">
+          This is a sheet of paper.
+        </Typography>
+        <Typography component="p">
+          Paper can be used to build surface or other elements for your
+          application.
+        </Typography>
+      </div>
+      <div className={classes.processSection}>Process Section</div>
+      <div className={classes.statusSection}>Status Section</div>
+      <div className={classes.readerSection}>Reader Actions Section</div>
     </Paper>
   );
 }
