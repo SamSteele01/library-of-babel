@@ -2,15 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
+import TextInput from "../common/TextInput";
 
 const styles = theme => ({
   root: {
@@ -49,23 +45,12 @@ const styles = theme => ({
   }
 });
 
-function DetailedExpansionPanel(props) {
+function Sell(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <ExpansionPanel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <div className={classes.column}>
-            <Typography className={classes.heading}>Location</Typography>
-          </div>
-          <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>
-              Select trip destination
-            </Typography>
-          </div>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column} />
+      <div>
+        <div className={classes.details}>
           <div className={classes.column}>
             <Chip
               label="Barbados"
@@ -82,21 +67,33 @@ function DetailedExpansionPanel(props) {
               </a>
             </Typography>
           </div>
-        </ExpansionPanelDetails>
+        </div>
         <Divider />
-        <ExpansionPanelActions>
+        <div>
           <Button size="small">Cancel</Button>
           <Button size="small" color="primary">
             Save
           </Button>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
+        </div>
+        <div>
+          <TextInput />
+        </div>
+        <div>
+          <TextInput />
+        </div>
+        <div>
+          <TextInput />
+        </div>
+        <div>
+          <TextInput multiline={true} />
+        </div>
+      </div>
     </div>
   );
 }
 
-DetailedExpansionPanel.propTypes = {
+Sell.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(DetailedExpansionPanel);
+export default withStyles(styles)(Sell);
