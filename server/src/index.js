@@ -63,13 +63,19 @@ app.get('/account', (req, res) => {
 // save new ethAddress in new account
 app.post('/account', AccountCtrl.create);
 
+// delete that mofo
+app.delete('/account', AccountCtrl.delete);
+
 /** make a policy_pubkey from a label
 * @body label
 */
 app.post('/get-encrypt-key', BookCtrl.derivePolicyPubkey)
 
 // get all books available
-// app.get('/books', BookCtrl.getAll);
+app.get('/books', BookCtrl.getAll);
+
+// get one book by id
+app.get('/book/:id', BookCtrl.getOne);
 
 /** upload new book, encrypt, store on ipfs, save in db
 * @body title, content, ethPrice, labelHash, ethAddress, pubKey
@@ -83,13 +89,15 @@ app.post('/books', BookCtrl.create);
 app.post('/get-from-ipfs', BookCtrl.ipfsGet);
 
 // show purchases from this ethAddress
-app.get('/purchases', PurchaseCtrl.getAll);
+app.get('/purchases/:ethAddress', PurchaseCtrl.getAll);
 
-// record purchase to db
+/** record purchase to db. Call right after F.E. gets txn confirmation
+* @body bookId, ethAddress, labelHash, txn
+*/
 app.post('/purchase', PurchaseCtrl.create);
 
 // get decryption key for purchased book
-app.post('/get-decrypt-key', PurchaseCtrl.getKey);
+app.post('/get-decrypt-key', PurchaseCtrl.getDecryptionKey);
 
 // join policy
 app.post('/join-policy', PurchaseCtrl.joinPolicy);

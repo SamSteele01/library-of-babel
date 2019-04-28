@@ -1,6 +1,7 @@
 
 
 // load new resource (price, locationURL, forwardingAddress) generates a resourceId
+function addContent(ethAddress, ipfsPath, label, price) public 
 
 // check resource - returns properties [price, locationURL, forwardingAddress?]
 

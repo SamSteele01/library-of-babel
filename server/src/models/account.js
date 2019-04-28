@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 mongoose.plugin(require('mongoose-unique-validator'), {
-  address: 'address already exists.',
+  ethAddress: 'ethAddress already exists.',
 });
 
 let AccountSchema = new Schema(

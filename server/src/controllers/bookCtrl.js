@@ -13,6 +13,7 @@ class BookCtrl {
   create = async (req, res) => {
     try {
       Validate.createBook(req);
+      Validate.labelHashAndEthAddress(req);
       let data = {};
       // = Buffer.from(req.body.content);
 
@@ -85,11 +86,23 @@ class BookCtrl {
 
   getAll = async (req, res) => {
     try {
-      // Api.validateVendible(req);
       const books = await Books.find({}).exec();
       let booksObject = JSON.parse(JSON.stringify(books));
-      console.log('BOOKSOBJECT', booksObject);
       res.status(200).json(booksObject);
+    } catch (err) {
+      res.status(400).json({
+        message: err.message ? err.message : err[0].msg,
+      });
+    }
+  };
+
+  getOne = async (req, res) => {
+    try {
+      Validate.id(req);
+      const book = await Books.findById(req.params.id).exec();
+      let bookObject = JSON.parse(JSON.stringify(book));
+      // console.log('BOOKSOBJECT', booksObject);
+      res.status(200).json(bookObject);
     } catch (err) {
       res.status(400).json({
         message: err.message ? err.message : err[0].msg,
@@ -100,6 +113,7 @@ class BookCtrl {
   derivePolicyPubkey = async (req, res) => {
     try {
       Validate.label(req);
+
       let labelHash = btoa(req.body.label);
       // if last character of label is a "/" Alice gives a 404 error
       if (labelHash.substr(-1) === '/') throw 'That label will not work. Try changing one character'

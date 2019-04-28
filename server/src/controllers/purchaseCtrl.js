@@ -1,8 +1,10 @@
 const superagent = require('superagent');
 const Web3 = require('web3');
+const moment = require('moment');
+const Accounts = require('../models/account.js');
 const Purchases = require('../models/purchase');
 const ipfsClient = require('ipfs-http-client')
-
+const Validate = require('../validate').default;
 
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:9545'));
@@ -13,12 +15,14 @@ class PurchaseCtrl {
   // this really is what the contract is for
   create = async (req, res) => {
     try {
-      // this.validateRequest(req);
+      Validate.purchase(req);
+      Validate.labelHashAndEthAddress(req);
 
       /* create purchase */
       let purchase = new Purchases({
-        address: req.body.address,
-        label: req.body.label,
+        bookId: req.body.bookId,
+        ethAddress: req.body.ethAddress,
+        labelHash: req.body.labelHash,
         txn: req.body.txn,
       });
       await purchase.save();
@@ -37,10 +41,12 @@ class PurchaseCtrl {
 
   getAll = async (req, res) => {
     try {
-      // Api.validate(req);
-      let purchases = await Purchases.find({ address: req.params.address }).exec();
+      Validate.ethAddressParam(req);
 
-      res.status(200).json(purchases); // filter on the front end
+      let purchases = await Purchases.find({ ethAddress: req.params.ethAddress }).exec();
+      let purchasesObject = JSON.parse(JSON.stringify(purchases));
+
+      res.status(200).json(purchasesObject); // filter on the front end
     } catch (err) {
       res.status(400).json({
         message: err.message ? err.message : err[0].msg,
@@ -48,42 +54,56 @@ class PurchaseCtrl {
     }
   };
 
-  getKey = async (req, res) => {
+  getDecryptionKey = async (req, res) => {
     try {
-      // this.validate(req);
+      Validate.labelHashAndEthAddress(req);
+      Validate.purchaseId(req);
+
+      let hasPaid = true;
 
       /* check contract */
       // paidAccessContract.methods.hasPaid(ethAddress, label).call(
-        (error, result) => {
-          if (error) {
-            throw error;
-          } else {
-            console.log('RESULT', result);
-            req.body.hasPaid = result;
-          }
-        }
+        // (error, result) => {
+        //   if (error) {
+        //     throw error;
+        //   } else {
+        //     console.log('RESULT', result);
+        //     hasPaid = result;
+        //   }
+        // }
       // )
 
-      if (req.body.hasPaid !== true) throw 'That content has not been paid for.'
+      if (hasPaid !== true) throw 'That content has not been paid for.'
 
-      /* check DB for account keys */
-      let account = await Accounts.find({ address: req.body.ethAddress }).exec();
+      /* check DB for account (bob) keys */
+      let account = await Accounts.findOne({ ethAddress: req.body.ethAddress }).exec();
       /* convert from Mongoose object to JSON object */
       let accountObject = JSON.parse(JSON.stringify(account));
+      // console.log('ACCOUNTOBJECT', accountObject);
 
+      /* get purchase */
+      let purchase = await Purchases.findById(req.body.purchaseId).exec();
+      let purchaseObject = JSON.parse(JSON.stringify(purchase));
+      // console.log('purchaseOBJECT', purchaseObject);
+
+      let expDate = moment().add(1, 'months').utc().format();
+      // console.log('EXPDATE', expDate);
+
+      // console.log('ACCOUNTOBJECT.ENCRYPTINGKEY', accountObject.encryptingKey);
       /* get key from Alice */
       superagent
-        .put('localhost:8151/grant') // alice node
-        .send({
+        .put('http://localhost:8151/grant') // alice node
+        .send(JSON.stringify({
           bob_encrypting_key: accountObject.encryptingKey,
-          // signing_key: accountObject.signingKey,
-          label: req.body.label,
-          m: 10,
-          n: 5,
-          expiration_time: '' // '2019-02-19T12:56:26.976816'
-        })
+          bob_signing_key: accountObject.signingKey,
+          label: req.body.labelHash,
+          m: 5,
+          n: 10,
+          expiration_time: expDate,
+        }))
         .end((err, response) => {
           if (err) {
+            console.log('RESPONSE', response);
             throw err;
           } else {
             console.log('ALICE RESPONSE', response);
@@ -92,10 +112,9 @@ class PurchaseCtrl {
         });
 
       /* save key */
-      let purchase = Purchases.findOne({ address: req.body.ethAddress, label: req.body.label }).exec();
-      purchase.update({ aliceSigningPubkey: req.body.key });
+      // await purchase.update({ aliceSigningPubkey: req.body.key });
 
-      res.status(200).json({ key: req.body.key });
+      res.status(200).json({ key: "req.body.key" });
     } catch (err) {
       res.status(400).json({
         message: err.message ? err.message : err[0].msg,

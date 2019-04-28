@@ -6,21 +6,34 @@ class AccountCtrl {
 
   create = async (req, res) => {
     try {
-      let result = {};
       /* validate ethAddress */
       Validate.ethAddressBody(req);
 
       /* get keys */
-      superagent
+      let result = await new Promise(resolve => {
+        superagent
         .get('http://localhost:11151/public_keys') // bob node
         .end((err, response) => {
           if (err) {
             throw err;
           } else {
             console.log('BOB RESPONSE', JSON.parse(response.text).result); // .json()
-            result = JSON.parse(response.text).result;
+            resolve(JSON.parse(response.text).result);
           }
         });
+      })
+
+      // (async () => {
+      //   try {
+      //     const res = await superagent.get('http://localhost:11151/public_keys');
+      //     console.log(res);
+      //     console.log('BOB RESPONSE', JSON.parse(res.text).result); // .json()
+      //     let result = JSON.parse(res.text).result;
+      //   } catch (err) {
+      //     console.error(err);
+      //     throw err;
+      //   }
+      // })();
 
       /* create account */
       let account = new Accounts({
@@ -62,7 +75,16 @@ class AccountCtrl {
     }
   };
 
+  delete = async (req, res) => {
+    try {
+      Validate.ethAddressBody(req);
+      await Accounts.deleteOne({ ethAddress: req.body.ethAddress }).exec();
 
+      res.status(200).json({ message: 'Account successfully deleted.' });
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  };
 
 }
 export default new AccountCtrl();
