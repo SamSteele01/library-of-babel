@@ -19,7 +19,7 @@ function PaperSheet(props) {
     <Paper className={classes.root} elevation={1}>
       <div className={classes.titleSection}>
         <Typography variant="h5" component="h3">
-          This is a sheet of paper.
+          This is the DecryptionStatus component.
         </Typography>
         <Typography component="p">
           Paper can be used to build surface or other elements for your
