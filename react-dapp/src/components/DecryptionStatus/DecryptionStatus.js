@@ -8,12 +8,15 @@ const styles = theme => ({
   root: {
     height: 780,
     width: "94%",
-    margin: "3%"
+    margin: "3%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
-  titleSection: {},
-  processSection: {},
-  statusSection: {},
-  readerSection: {}
+  titleSection: { border: "2px solid black", height: 180 },
+  processSection: { border: "2px solid black", height: 180 },
+  statusSection: { border: "2px solid black", height: 180 },
+  readerSection: { border: "2px solid black", height: 180 }
 });
 
 function PaperSheet(props) {
