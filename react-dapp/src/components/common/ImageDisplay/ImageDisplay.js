@@ -21,7 +21,7 @@ function ImageDisplay(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <CardMedia className={classes.media} image={img} title="Paella dish" />
+      <CardMedia className={classes.media} image={img} title="Book Cover" />
     </div>
   );
 }
