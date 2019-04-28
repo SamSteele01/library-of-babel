@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
@@ -19,9 +18,6 @@ const styles = theme => ({
     border: "2px solid black",
     backgroundColor: theme.palette.background.paper
   },
-  chip: {
-    marginRight: theme.spacing.unit
-  },
   section1: {
     margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
   },
@@ -29,8 +25,10 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2
   },
   section3: {
-    margin: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 2}px ${theme
-      .spacing.unit * 2}px`
+    margin: `16px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "space-evenly"
   }
 });
 
@@ -39,7 +37,7 @@ function MiddleDividers(props) {
   return (
     <div className={classes.root}>
       <div className={classes.section1}>
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" direction="column">
           <Grid item xs>
             <TitleDisplay />
           </Grid>
@@ -49,28 +47,17 @@ function MiddleDividers(props) {
           <Grid item xs>
             <AuthorDisplay />
           </Grid>
-          <Grid item xs>
-            <Description />
-          </Grid>
         </Grid>
       </div>
-      <Description />
+      <Divider variant="middle" />
       <div className={classes.section2}>
-        <Typography gutterBottom variant="body1">
-          Select type
-        </Typography>
-        <div>
-          <Price />
-          <Chip className={classes.chip} label="Extra Soft" />
-          <Chip className={classes.chip} label="Soft" />
-          <Chip className={classes.chip} label="Medium" />
-          <Chip className={classes.chip} label="Hard" />
-        </div>
+        <Description />
       </div>
       <Divider variant="middle" />
       <div className={classes.section3}>
-        <Button variant="contained" color="primary" fullWidth>
-          Add to cart
+        <Price />
+        <Button variant="contained" color="primary">
+          Purchase
         </Button>
       </div>
     </div>

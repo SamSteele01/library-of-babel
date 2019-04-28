@@ -8,14 +8,13 @@ import img from "../../../images/World-Whisperer.jpg";
 const styles = theme => ({
   root: {
     border: "2px solid black",
-    backgroundColor: theme.palette.background.paper
+    height: 300,
+    width: 200
   },
-  section1: {
-    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
-  },
+
   media: {
-    height: 0,
-    paddingTop: "56.25%"
+    height: 300,
+    width: 200
   }
 });
 
@@ -23,17 +22,7 @@ function ImageDisplay(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <div className={classes.section1}>
-        <Grid container alignItems="center">
-          <Grid item xs>
-            <CardMedia
-              className={classes.media}
-              image={img}
-              title="Paella dish"
-            />
-          </Grid>
-        </Grid>
-      </div>
+      <CardMedia className={classes.media} image={img} title="Paella dish" />
     </div>
   );
 }

@@ -19,7 +19,7 @@ function Description(props) {
   return (
     <div className={classes.root}>
       <div className={classes.section1}>
-        <Typography color="textSecondary">
+        <Typography color="textSecondary" variant="body1">
           Pinstriped cornflower blue cotton blouse takes you on a walk to the
           park or just down the hall.
         </Typography>

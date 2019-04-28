@@ -7,10 +7,9 @@ import Typography from "@material-ui/core/Typography";
 const styles = theme => ({
   root: {
     border: "2px solid black",
-    backgroundColor: theme.palette.background.paper
-  },
-  section1: {
-    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
+    backgroundColor: theme.palette.background.paper,
+    justifyContent: "center",
+    alignContent: "center"
   }
 });
 
@@ -18,11 +17,7 @@ function Price(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <div className={classes.section1}>
-        <Typography gutterBottom variant="h6">
-          $4.50
-        </Typography>
-      </div>
+      <Typography variant="h6">$4.50</Typography>
     </div>
   );
 }

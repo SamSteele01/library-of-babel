@@ -10,7 +10,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   section1: {
-    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
+    margin: `16px ${theme.spacing.unit * 2}px`
   }
 });
 
@@ -21,8 +21,8 @@ function TitleDisplay(props) {
       <div className={classes.section1}>
         <Grid container alignItems="center">
           <Grid item xs>
-            <Typography gutterBottom variant="h4">
-              THIS IS A BOOK TITLE
+            <Typography gutterBottom variant="h6">
+              Rachel Devenish Ford
             </Typography>
           </Grid>
         </Grid>
