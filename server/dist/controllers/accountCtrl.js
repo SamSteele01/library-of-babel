@@ -18,6 +18,7 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var superagent = require('superagent');
 var Accounts = require('../models/account.js');
 
 var AccountCtrl = function AccountCtrl() {
@@ -27,60 +28,50 @@ var AccountCtrl = function AccountCtrl() {
 
   this.create = function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
-      var account;
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
+              try {
+                // /* check if merchantName and username are unique */
+                // this.validateRequest(req);
+                // await this.validateUnique(req);
+                // Users.validateRequest(req);
+                // await Users.validateUnique(req);
 
-              // /* check if merchantName and username are unique */
-              // this.validateRequest(req);
-              // await this.validateUnique(req);
-              // Users.validateRequest(req);
-              // await Users.validateUnique(req);
+                /* get keys */
+                superagent.get('http://localhost:11151/public_keys') // bob node
+                .end(function (err, response) {
+                  if (err) {
+                    throw err;
+                  } else {
+                    console.log('BOB RESPONSE', response); // .json()
+                  }
+                });
 
-              /* get keys */
-              superagent.get('localhost:11151/public_keys') // bob node
-              .end(function (err, response) {
-                if (err) {
-                  throw err;
-                } else {
-                  console.log('BOB RESPONSE', response); // .json()
-                }
-              });
+                /* create account */
+                // let account = new Accounts({
+                //   address: req.body.address,
+                // });
+                // await account.save();
 
-              /* create account */
-              account = new Accounts({
-                address: req.body.address
-              });
-              _context.next = 5;
-              return account.save();
+                /* send response */
+                res.status(201).json({
+                  message: 'Account created.'
+                  // accountId: account._id,
+                });
+              } catch (err) {
+                res.status(400).json({
+                  message: err.message ? err.message : err[0].msg
+                });
+              }
 
-            case 5:
-
-              /* send response */
-              res.status(201).json({
-                message: 'Account created.'
-                // accountId: account._id,
-              });
-              _context.next = 11;
-              break;
-
-            case 8:
-              _context.prev = 8;
-              _context.t0 = _context['catch'](0);
-
-              res.status(400).json({
-                message: _context.t0.message ? _context.t0.message : _context.t0[0].msg
-              });
-
-            case 11:
+            case 1:
             case 'end':
               return _context.stop();
           }
         }
-      }, _callee, _this, [[0, 8]]);
+      }, _callee, _this);
     }));
 
     return function (_x, _x2) {

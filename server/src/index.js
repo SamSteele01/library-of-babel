@@ -53,22 +53,34 @@ app.use(cors());
 /* ---------------------- Routes ---------------------- */
 
 // get account if it exists
-console.log('ACCOUNTCTRL.GET', AccountCtrl.get);
-app.get('/account', AccountCtrl.get);
+app.get('/account/:ethAddress', AccountCtrl.get);
+
+// error message
+app.get('/account', (req, res) => {
+  res.status(400).json({ message: 'You must include a param of: ethaddress' })
+});
 
 // save new ethAddress in new account
 app.post('/account', AccountCtrl.create);
 
-// get all books available
-app.get('/books', BookCtrl.getAll);
+/** make a policy_pubkey from a label
+* @body label
+*/
+app.post('/get-encrypt-key', BookCtrl.derivePolicyPubkey)
 
-// make a policy_pubkey from a label
-app.post('/get-encrypt-key', BookCtrl.makePubkey)
+// get all books available
+// app.get('/books', BookCtrl.getAll);
 
 /** upload new book, encrypt, store on ipfs, save in db
-* @body IPFS_hash, label, eth_address, price
+* @body title, content, ethPrice, labelHash, ethAddress, pubKey
+* @return bookId, ipfsHash
 */
 app.post('/books', BookCtrl.create);
+
+/** TESTING get content from IPFS
+* @body ipfsPath
+*/
+app.post('/get-from-ipfs', BookCtrl.ipfsGet);
 
 // show purchases from this ethAddress
 app.get('/purchases', PurchaseCtrl.getAll);

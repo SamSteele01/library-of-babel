@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 let BookSchema = new Schema(
   {
-    address: { type: String, required: true },
-    label: { type: String, required: true },
-    policyEncryptingPubkey: { type: String, required: true },
-    ipfsHash: { type: String },
+    ethAddress: { type: String, required: true },
+    labelHash: { type: String, required: true },
+    // policyEncryptingPubkey: { type: String, required: true },
+    ipfsPath: { type: String, required: true },
     ethPrice: { type: String, required: true },
     image: { type: Buffer },
     desc: { type: String },

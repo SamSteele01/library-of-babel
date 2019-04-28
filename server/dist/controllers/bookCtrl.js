@@ -18,6 +18,7 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var superagent = require('superagent');
 var Books = require('../models/book');
 var ipfsClient = require('ipfs-http-client');
 

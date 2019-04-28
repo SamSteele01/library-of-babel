@@ -8,7 +8,7 @@ mongoose.plugin(require('mongoose-unique-validator'), {
 
 let AccountSchema = new Schema(
   {
-    address: { type: String, required: true, unique: true },
+    ethAddress: { type: String, required: true, unique: true },
     signingKey: { type: String },
     encryptingKey: { type: String },
   },

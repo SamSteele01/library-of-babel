@@ -1,37 +1,41 @@
+const superagent = require('superagent');
 const Accounts = require('../models/account.js');
+const Validate = require('../validate').default;
 
 class AccountCtrl {
 
   create = async (req, res) => {
     try {
-      // /* check if merchantName and username are unique */
-      // this.validateRequest(req);
-      // await this.validateUnique(req);
-      // Users.validateRequest(req);
-      // await Users.validateUnique(req);
+      let result = {};
+      /* validate ethAddress */
+      Validate.ethAddressBody(req);
 
       /* get keys */
       superagent
-        .get('localhost:11151/public_keys') // bob node
+        .get('http://localhost:11151/public_keys') // bob node
         .end((err, response) => {
           if (err) {
             throw err;
           } else {
-            console.log('BOB RESPONSE', response); // .json()
-
+            console.log('BOB RESPONSE', JSON.parse(response.text).result); // .json()
+            result = JSON.parse(response.text).result;
           }
         });
 
       /* create account */
       let account = new Accounts({
-        address: req.body.address,
+        ethAddress: req.body.ethAddress,
+        signingKey: result.bob_signing_key,
+        encryptingKey: result.bob_encrypting_key
       });
       await account.save();
 
       /* send response */
       res.status(201).json({
         message: 'Account created.',
-        // accountId: account._id,
+        accountId: account._id,
+        signingKey: result.bob_signing_key,
+        encryptingKey: result.bob_encrypting_key
       });
     } catch (err) {
       res.status(400).json({
@@ -41,17 +45,24 @@ class AccountCtrl {
   }
 
   get = async (req, res) => {
-    console.log('REQ.PARAMS.ID', req.params.ethAddress);
     try {
-      let account = await Accounts.findOne({ address: req.params.ethAddress }).exec();
+      Validate.ethAddressParam(req);
+      let account = await Accounts.findOne({ ethAddress: req.params.ethAddress }).exec();
+      // let account = await Accounts.find({}).exec();
+      // console.log('ACCOUNT', account);
       if (account === null) {
         return res.status(404).json({ message: "This account doesn't exist yet" });
       }
-      res.status(200).json(account);
+      let accountObject = JSON.parse(JSON.stringify(account));
+      console.log('ACCOUNTOBJECT', accountObject);
+
+      res.status(200).json(accountObject);
     } catch (err) {
       res.status(400).json(err);
     }
   };
+
+
 
 }
 export default new AccountCtrl();
