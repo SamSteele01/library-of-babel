@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import ProcessDisplay from "../common/ProcessDisplay";
 
 const styles = theme => ({
   root: {
@@ -13,10 +14,11 @@ const styles = theme => ({
     flexDirection: "column",
     justifyContent: "space-between"
   },
-  listingStatusSection: { border: "2px solid black", height: 180 },
-  processSection: { border: "2px solid black", height: 180 },
+  listingStatusSection: { border: "2px solid black", height: 80 },
+  processSection: { border: "2px solid black", height: 380 },
   listingInfoSection: { border: "2px solid black", height: 180 },
-  sellerInterfaceSection: { border: "2px solid black", height: 180 }
+  sellerInterfaceSection: { border: "2px solid black", height: 80 },
+  processDisplay: { display: "flex", justifyContent: "center" }
 });
 
 function PaperSheet(props) {
@@ -33,7 +35,12 @@ function PaperSheet(props) {
           application.
         </Typography>
       </div>
-      <div className={classes.processSection}>Process Section</div>
+      <div className={classes.processSection}>
+        <div>Process Section</div>
+        <div className={classes.processDisplay}>
+          <ProcessDisplay />
+        </div>
+      </div>
       <div className={classes.listingInfoSection}>Listing Info Section</div>
       <div className={classes.sellerInterfaceSection}>
         Seller Actions Section
