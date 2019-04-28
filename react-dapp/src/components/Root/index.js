@@ -5,6 +5,8 @@ import Header from "../Header";
 import Info from "../Info";
 import Purchase from "../Purchase";
 import Sell from "../Sell";
+import ListingStatus from "../ListingStatus";
+import DecryptionStatus from "../DecryptionStatus";
 
 import "./index.css";
 
@@ -21,6 +23,8 @@ function Root() {
       )}
       <Info />
       <Sell />
+      <ListingStatus />
+      <DecryptionStatus />
     </div>
   );
 }
