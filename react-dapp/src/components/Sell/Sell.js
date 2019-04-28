@@ -7,6 +7,7 @@ import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import TextInput from "../common/TextInput";
+import Upload from "../common/Upload";
 
 const styles = theme => ({
   root: {
@@ -80,6 +81,7 @@ function Sell(props) {
             <div>art upload component</div>
             <div>test file upload component</div>
             <div>listing instructions component</div>
+            <Upload />
           </div>
           <div className={classes.sectionRight}>
             <div>
