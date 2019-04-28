@@ -5,10 +5,12 @@ import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import Description from "../common/Description";
 import Typography from "@material-ui/core/Typography";
 import TitleDisplay from "../common/TitleDisplay";
 import ImageDisplay from "../common/ImageDisplay";
 import AuthorDisplay from "../common/AuthorDisplay";
+import Price from "../common/Price";
 
 const styles = theme => ({
   root: {
@@ -47,29 +49,25 @@ function MiddleDividers(props) {
           <Grid item xs>
             <AuthorDisplay />
           </Grid>
-          <Grid item>
-            <Typography gutterBottom variant="h6">
-              $4.50
-            </Typography>
+          <Grid item xs>
+            <Description />
           </Grid>
         </Grid>
-        <Typography color="textSecondary">
-          Pinstriped cornflower blue cotton blouse takes you on a walk to the
-          park or just down the hall.
-        </Typography>
       </div>
-      <Divider variant="middle" />
+      <Description />
       <div className={classes.section2}>
         <Typography gutterBottom variant="body1">
           Select type
         </Typography>
         <div>
+          <Price />
           <Chip className={classes.chip} label="Extra Soft" />
           <Chip className={classes.chip} label="Soft" />
           <Chip className={classes.chip} label="Medium" />
           <Chip className={classes.chip} label="Hard" />
         </div>
       </div>
+      <Divider variant="middle" />
       <div className={classes.section3}>
         <Button variant="contained" color="primary" fullWidth>
           Add to cart
