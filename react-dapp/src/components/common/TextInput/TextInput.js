@@ -31,7 +31,7 @@ class TextInput extends React.Component {
   };
 
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
