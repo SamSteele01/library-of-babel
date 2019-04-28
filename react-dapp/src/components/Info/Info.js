@@ -8,6 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import TitleDisplay from "../common/TitleDisplay";
 import ImageDisplay from "../common/ImageDisplay";
+import AuthorDisplay from "../common/AuthorDisplay";
 
 const styles = theme => ({
   root: {
@@ -42,6 +43,9 @@ function MiddleDividers(props) {
           </Grid>
           <Grid item xs>
             <ImageDisplay />
+          </Grid>
+          <Grid item xs>
+            <AuthorDisplay />
           </Grid>
           <Grid item>
             <Typography gutterBottom variant="h6">
