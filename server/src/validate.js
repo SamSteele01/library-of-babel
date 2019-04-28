@@ -2,6 +2,13 @@
 
 class Validate {
 
+  download = (req) => {
+    req.checkBody('bookId', 'The bookId cannot be empty').notEmpty();
+    req.checkBody('aliceSigningPubkey', 'The aliceSigningPubkey cannot be empty').notEmpty();
+    let errors = req.validationErrors();
+    if (errors) throw errors;
+  }
+
   ethAddressBody = (req) => {
       req.checkBody('ethAddress', 'The ethAddress cannot be empty').notEmpty();
       let errors = req.validationErrors();

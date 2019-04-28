@@ -27,7 +27,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ~/.mongo-data/db:/data/db
+      - mongo:/data/db
 
   nucypher-alice:
     command: nucypher alice run --dev --federated-only --network devnet --teacher-uri 18.222.119.242:9151
@@ -41,7 +41,7 @@ services:
     #   context: "$NUCYPHER_HOME"
     #   dockerfile: "$NUCYPHER_HOME/deploy/docker/Dockerfile"
     volumes:
-      - ~/.local/share/nucypher:/nucypher
+      - nucypher-alice:/nucypher
     stdin_open: true
     tty: true
 
@@ -57,7 +57,7 @@ services:
     #   context: "${NUCYPHER_HOME}"
     #   dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
     volumes:
-      - ~/.local/share/nucypher:/nucypher
+      - nucypher-bob:/nucypher
     stdin_open: true
     tty: true
 
@@ -75,6 +75,12 @@ services:
     #   context: "${NUCYPHER_HOME}"
     #   dockerfile: $NUCYPHER_HOME/deploy/docker/Dockerfile
     volumes:
-      - ~/.local/share/nucypher:/nucypher
+      - nucypher-enrico:/nucypher
     stdin_open: true
     tty: true
+
+volumes:
+  mongo:
+  nucypher-alice:
+  nucypher-bob:
+  nucypher-enrico:

@@ -102,7 +102,9 @@ app.post('/get-decrypt-key', PurchaseCtrl.getDecryptionKey);
 // join policy
 app.post('/join-policy', PurchaseCtrl.joinPolicy);
 
-// download content with key
+/** download content with key
+* @body bookId and aliceSigningPubkey
+*/
 app.post('/download', PurchaseCtrl.download);
 
 /* Alice */

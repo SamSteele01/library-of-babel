@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 let PurchaseSchema = new Schema(
   {
-    ethAddress: { type: String, required: true },
+    aliceSigningPubkey: { type: String },
     bookId: { type: String, required: true },
-    labelHash: { type: String, required: true }, // book label. Not unique until enrico is changed
+    ethAddress: { type: String, required: true }, // of purchaser
+    // ipfsPath: { type: String, required: true }, // can get from Book
     txn: { type: String, required: true },
-    aliceSigningPubkey: { type: String }
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );

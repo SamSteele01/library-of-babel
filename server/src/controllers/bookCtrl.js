@@ -14,14 +14,11 @@ class BookCtrl {
     try {
       Validate.createBook(req);
       Validate.labelHashAndEthAddress(req);
-      let data = {};
-      // = Buffer.from(req.body.content);
 
-      /** send base 64 content to enrico
-      * for now using
+      /** send base 64 content to enrico - for now using:
       * "labelHash": "aXBmcyB0ZXN0IGxhYmVs",
       * "pubKey": "03050dbdbe6de74937f261ceebaa9f4822f55d90a05a111c4333181f3340c3e856"
-      */
+      * for all uploads */
       let btoaContent = btoa(req.body.content);
       let bufferedContent = await new Promise((resolve, reject) => {
         superagent
@@ -33,8 +30,9 @@ class BookCtrl {
               throw err;
             } else {
               // console.log('enrico response', JSON.parse(response.text).result);
-              data = JSON.parse(response.text).result;
+              let data = JSON.parse(response.text).result;
               resolve(Buffer.from(JSON.stringify(data)));
+              // data = { message_kit, signature }
             }
           });
       })
@@ -57,10 +55,12 @@ class BookCtrl {
         // console.log('IPFSPATH', ipfsPath);
         /* create book */
         let book = new Books({
+          // accountId: ??
           ethAddress: req.body.ethAddress,
-          labelHash: req.body.labelHash,
-          ipfsPath,
           ethPrice: req.body.ethPrice,
+          ipfsPath,
+          labelHash: req.body.labelHash,
+          policyEncryptingPubkey: "03050dbdbe6de74937f261ceebaa9f4822f55d90a05a111c4333181f3340c3e856",
           title: req.body.title,
         });
         await book.save();

@@ -1,7 +1,8 @@
 const superagent = require('superagent');
 const Web3 = require('web3');
 const moment = require('moment');
-const Accounts = require('../models/account.js');
+const Accounts = require('../models/account');
+const Books = require('../models/book');
 const Purchases = require('../models/purchase');
 const ipfsClient = require('ipfs-http-client')
 const Validate = require('../validate').default;
@@ -55,23 +56,26 @@ class PurchaseCtrl {
   };
 
   getDecryptionKey = async (req, res) => {
+    /* a.k.a. aliceSigningPubkey or alice_signing_pubkey */
     try {
       Validate.labelHashAndEthAddress(req);
       Validate.purchaseId(req);
 
-      let hasPaid = true;
+      let hasPaid = true; // true for testing / skip contract check
 
       /* check contract */
-      // paidAccessContract.methods.hasPaid(ethAddress, label).call(
-        // (error, result) => {
-        //   if (error) {
-        //     throw error;
-        //   } else {
-        //     console.log('RESULT', result);
-        //     hasPaid = result;
-        //   }
-        // }
-      // )
+      // hasPaid = await new Promise(resolve => {
+      //   paidAccessContract.methods.hasPaid(ethAddress, label).call(
+      //     (error, result) => {
+      //       if (error) {
+      //         throw error;
+      //       } else {
+      //         console.log('RESULT', result);
+      //         resolve(result);
+      //       }
+      //     }
+      //   )
+      // });
 
       if (hasPaid !== true) throw 'That content has not been paid for.'
 
@@ -91,28 +95,32 @@ class PurchaseCtrl {
 
       // console.log('ACCOUNTOBJECT.ENCRYPTINGKEY', accountObject.encryptingKey);
       /* get key from Alice */
-      superagent
-        .put('http://localhost:8151/grant') // alice node
-        .send(JSON.stringify({
-          bob_encrypting_key: accountObject.encryptingKey,
-          bob_signing_key: accountObject.signingKey,
-          label: req.body.labelHash,
-          m: 5,
-          n: 10,
-          expiration_time: expDate,
-        }))
-        .end((err, response) => {
-          if (err) {
-            console.log('RESPONSE', response);
-            throw err;
-          } else {
-            console.log('ALICE RESPONSE', response);
-            req.body.key = result.alice_signing_pubkey;
-          }
-        });
+      let result = await new Promise(resolve => {
+        superagent
+          .put('http://localhost:8151/grant') // alice node
+          .send({
+            bob_encrypting_key: accountObject.encryptingKey,
+            bob_signing_key: accountObject.signingKey,
+            label: req.body.labelHash,
+            m: 5,
+            n: 10,
+            // expiration_time: expDate, // '2019-02-19T12:56:26.976816'
+            expiration_time: '2019-02-19T12:56:26.976816',
+          })
+          .end((err, response) => {
+            if (err) {
+              console.log('RESPONSE', response);
+              throw err;
+            } else {
+              console.log('ALICE RESPONSE', JSON.parse(response.text).result);
+              resolve(JSON.parse(response.text).result);
+              // returns treasure_map, policy_encrypting_pubkey, alice_signing_pubkey
+            }
+          });
+      });
 
-      /* save key */
-      // await purchase.update({ aliceSigningPubkey: req.body.key });
+      /* update with key */
+      // await purchase.update({ aliceSigningPubkey: result.alice_signing_pubkey });
 
       res.status(200).json({ key: "req.body.key" });
     } catch (err) {
@@ -124,13 +132,12 @@ class PurchaseCtrl {
 
   joinPolicy = async (req, res) => {
     try {
-
       /* send request to Bob */
       superagent
         .put('localhost:11151/join-policy') // bob node
         .send({
           alice_signing_pubkey: req.body.key,
-          label: req.body.label,
+          label: req.body.labelHash,
         })
         .end((err, response) => {
           if (err) {
@@ -151,38 +158,52 @@ class PurchaseCtrl {
 
   download = async (req, res) => {
     try {
-      let data = {};
+      /* look up bookId and aliceSigningPubkey from purchaseId or expect in req.body */
+      Validate.download(req);
+
+      /* look up ipfsPath, labelHash, and pubKey from bookId */
+      let book = await Books.findById(req.body.bookId).exec();
+      let bookObject = JSON.parse(JSON.stringify(book));
+      console.log('bookObject', bookObject);
+
       /* get data from IPFS */
-      ipfs.get(req.body.ipfsHash, (err, ipfsData) => {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log('DATA', data);
-          data = JSON.parse(ipfsData[0].content);
-        }
+      let encryptedContent = await new Promise(resolve => {
+        ipfs.get(bookObject.ipfsPath, (err, ipfsData) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log('DATA', data);
+            let data = JSON.parse(ipfsData[0].content);
+            resolve(Buffer.from(JSON.stringify(data)));
+          }
+        })
       })
+      console.log('encryptedContent', encryptedContent);
 
       /* send request to Bob */
-      superagent
-        .post('localhost:11151/retrieve') // bob node
-        .send({
-          label: req.body.label,
-          alice_signing_pubkey: req.body.signingKey,
-          policy_encrypting_pubkey: req.body.pubKey,
-          datasource_signing_pubkey: data.signature, // signature
-          message_kit: data.message_kit
-        })
-        .end((err, response) => {
-          if (err) {
-            throw err;
-          } else {
-            console.log('BOB RESPONSE', response);
-            // JSON.parse(Buffer.from(bobRes.result.plaintext[0], 'base64').toString('utf-8'))
+      let decryptedContent = await new Promise(resolve => {
+        superagent
+          .post('localhost:11151/retrieve') // bob node
+          .send({
+            label: bookObject.labelHash,
+            alice_signing_pubkey: req.body.aliceSigningPubkey,
+            policy_encrypting_pubkey: bookObject.policyEncryptingPubkey,
+            datasource_signing_pubkey: encryptedContent.signature, // signature
+            message_kit: encryptedContent.message_kit
+          })
+          .end((err, response) => {
+            if (err) {
+              throw err;
+            } else {
+              console.log('BOB RESPONSE', response);
+              // JSON.parse(Buffer.from(bobRes.result.plaintext[0], 'base64').toString('utf-8'))
 
-          }
-        });
+            }
+          });
+      })
+      console.log('DECRYPTEDCONTENT', decryptedContent);
 
-      res.status(200).json(response);
+      res.status(200).json(decryptedContent);
     } catch (err) {
       res.status(400).json({
         message: err.message ? err.message : err[0].msg,
