@@ -20,11 +20,17 @@ const styles = theme => ({
   titleSection: { border: "2px solid black", height: 80 },
   processSection: {
     border: "2px solid black",
-    height: 380,
+    height: 480,
     display: "flex",
     flexDirection: "column"
   },
-  statusSection: { border: "2px solid black", height: 180 },
+  statusSection: {
+    border: "2px solid black",
+    height: 80,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly"
+  },
   readerSection: {
     border: "2px solid black",
     height: 80,
