@@ -35,7 +35,7 @@ function TitleDisplay(props) {
     <div className={classes.root}>
       <Grid container alignItems="center">
         <Grid item xs>
-          <Typography variant="p">THIS IS A BOOK TITLE</Typography>
+          <Typography variant="body1">THIS IS A BOOK TITLE</Typography>
         </Grid>
       </Grid>
     </div>
