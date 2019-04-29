@@ -7,12 +7,13 @@ const styles = theme => ({
   root: {
     border: "2px solid black",
     backgroundColor: theme.palette.background.paper,
-    justifyContent: "center",
-    alignContent: "center"
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around"
   }
 });
 
-function Price(props) {
+function Sales(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -21,8 +22,8 @@ function Price(props) {
   );
 }
 
-Price.propTypes = {
+Sales.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Price);
+export default withStyles(styles)(Sales);
