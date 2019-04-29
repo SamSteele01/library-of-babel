@@ -9,6 +9,7 @@ import AuthorDisplay from "../common/AuthorDisplay";
 import Description from "../common/Description";
 import Price from "../common/Price";
 import TotalSales from "../common/TotalSales";
+import ActiveListingToggle from "../common/ActiveListingToggle";
 
 const styles = theme => ({
   root: {
@@ -53,7 +54,12 @@ const styles = theme => ({
     flexDirection: "row",
     justifyContent: "space-evenly"
   },
-  processDisplay: { display: "flex", justifyContent: "center" }
+  processDisplay: { display: "flex", justifyContent: "center" },
+  listingToggle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around"
+  }
 });
 
 function PaperSheet(props) {
@@ -83,7 +89,9 @@ function PaperSheet(props) {
       </div>
       <div className={classes.sellerInterfaceSection}>
         <TotalSales total={"4.50"} />
-        <li>Active/Inactive</li>
+        <div className={classes.listingToggle}>
+          <ActiveListingToggle listingStatus={"Active"} />
+        </div>
       </div>
     </Paper>
   );
