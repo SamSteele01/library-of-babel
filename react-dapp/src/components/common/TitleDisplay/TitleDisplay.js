@@ -33,13 +33,11 @@ function TitleDisplay(props) {
   }
   return (
     <div className={classes.root}>
-      <div className={classes.section1}>
-        <Grid container alignItems="center">
-          <Grid item xs>
-            <Typography variant="p">THIS IS A BOOK TITLE</Typography>
-          </Grid>
+      <Grid container alignItems="center">
+        <Grid item xs>
+          <Typography variant="p">THIS IS A BOOK TITLE</Typography>
         </Grid>
-      </div>
+      </Grid>
     </div>
   );
 }
