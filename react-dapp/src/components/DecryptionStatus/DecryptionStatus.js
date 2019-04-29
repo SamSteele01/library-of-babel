@@ -5,6 +5,8 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ProcessDisplay from "../common/ProcessDisplay";
 import DecryptionToggle from "../common/DecryptionToggle";
+import ReadButton from "../common/ReadButton";
+import DownloadButton from "../common/DownloadButton";
 
 const styles = theme => ({
   root: {
@@ -23,7 +25,13 @@ const styles = theme => ({
     flexDirection: "column"
   },
   statusSection: { border: "2px solid black", height: 180 },
-  readerSection: { border: "2px solid black", height: 80 },
+  readerSection: {
+    border: "2px solid black",
+    height: 80,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly"
+  },
   processDisplay: { display: "flex", justifyContent: "center" }
 });
 
@@ -50,7 +58,10 @@ function PaperSheet(props) {
       <div className={classes.statusSection}>
         <DecryptionToggle label={"Encrypted"} />
       </div>
-      <div className={classes.readerSection}>Reader Actions Section</div>
+      <div className={classes.readerSection}>
+        <ReadButton />
+        <DownloadButton />
+      </div>
     </Paper>
   );
 }
