@@ -60,7 +60,7 @@ function Sell(props) {
     <div className={classes.root}>
       <div>
         <div className={classes.details}>
-          <TitleDisplay />
+          <TitleDisplay prominent />
         </div>
         <Divider />
         <div className={classes.sectionContainer}>

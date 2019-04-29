@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ProcessDisplay from "../common/ProcessDisplay";
+import TitleDisplay from "../common/TitleDisplay";
 
 const styles = theme => ({
   root: {
@@ -41,7 +42,14 @@ function PaperSheet(props) {
           <ProcessDisplay />
         </div>
       </div>
-      <div className={classes.listingInfoSection}>Listing Info Section</div>
+      <div className={classes.listingInfoSection}>
+        Listing Info Section
+        <li>Title</li>
+        <TitleDisplay />
+        <li>Author</li>
+        <li>Description</li>
+        <li>Price</li>
+      </div>
       <div className={classes.sellerInterfaceSection}>
         Seller Actions Section
       </div>
