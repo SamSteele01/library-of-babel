@@ -9,7 +9,7 @@ import AuthorDisplay from "../common/AuthorDisplay";
 import Description from "../common/Description";
 import Price from "../common/Price";
 import TotalSales from "../common/TotalSales";
-import ActiveListingToggle from "../common/ActiveListingToggle";
+import ActiveListingToggle from '../common/ListingStatusToggle';
 
 const styles = theme => ({
   root: {
