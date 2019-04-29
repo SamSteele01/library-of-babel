@@ -14,12 +14,8 @@ const styles = theme => ({
   }
 });
 
-function handleClick() {
-  alert("You clicked the Chip."); // eslint-disable-line no-alert
-}
-
 function OutlinedChips(props) {
-  const { classes, ...rest } = props;
+  const { classes } = props;
   return (
     <div className={classes.root}>
       <Chip
