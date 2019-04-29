@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ProcessDisplay from "../common/ProcessDisplay";
+import DecryptionToggle from "../common/DecryptionToggle";
 
 const styles = theme => ({
   root: {
@@ -46,7 +47,9 @@ function PaperSheet(props) {
           <ProcessDisplay />
         </div>
       </div>
-      <div className={classes.statusSection}>Status Section</div>
+      <div className={classes.statusSection}>
+        <DecryptionToggle label={"Encrypted"} />
+      </div>
       <div className={classes.readerSection}>Reader Actions Section</div>
     </Paper>
   );
