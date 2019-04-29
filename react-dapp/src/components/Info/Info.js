@@ -44,7 +44,7 @@ function MiddleDividers(props) {
             <ImageDisplay />
           </Grid>
           <Grid item xs>
-            <AuthorDisplay />
+            <AuthorDisplay prominent />
           </Grid>
         </Grid>
       </div>

@@ -16,17 +16,28 @@ const styles = theme => ({
 
 function TitleDisplay(props) {
   const { classes } = props;
+  if (props.prominent) {
+    return (
+      <div className={classes.root}>
+        <div className={classes.section1}>
+          <Grid container alignItems="center">
+            <Grid item xs>
+              <Typography gutterBottom variant="h6">
+                Rachel Devenish Ford
+              </Typography>
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={classes.root}>
-      <div className={classes.section1}>
-        <Grid container alignItems="center">
-          <Grid item xs>
-            <Typography gutterBottom variant="h6">
-              Rachel Devenish Ford
-            </Typography>
-          </Grid>
+      <Grid container alignItems="center">
+        <Grid item xs>
+          <Typography variant="p">Rachel Devenish Ford</Typography>
         </Grid>
-      </div>
+      </Grid>
     </div>
   );
 }
