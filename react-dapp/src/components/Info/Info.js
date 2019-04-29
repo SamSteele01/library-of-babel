@@ -38,13 +38,13 @@ function MiddleDividers(props) {
       <div className={classes.section1}>
         <Grid container alignItems="center" direction="column">
           <Grid item xs>
-            <TitleDisplay />
+            <TitleDisplay prominent />
           </Grid>
           <Grid item xs>
             <ImageDisplay />
           </Grid>
           <Grid item xs>
-            <AuthorDisplay />
+            <AuthorDisplay prominent />
           </Grid>
         </Grid>
       </div>
