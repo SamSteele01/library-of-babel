@@ -84,6 +84,9 @@ app.get('/books', BookCtrl.getAll);
 // get one book by id
 app.get('/book/:id', BookCtrl.getOne);
 
+// get all books by ethAddress
+app.get('/uploads/:ethAddress', BookCtrl.getAllByUser);
+
 /** UPLOAD new book, encrypt, store on ipfs, save in db
 * @body title, content, ethPrice, labelHash, ethAddress
 * @body pubKey - needed after enrico can change on the fly

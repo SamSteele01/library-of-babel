@@ -88,7 +88,21 @@ class BookCtrl {
 
   getAll = async (req, res) => {
     try {
-      const books = await Books.find({}).exec();
+      const books = await Books.find({  }).exec();
+      let booksObject = JSON.parse(JSON.stringify(books));
+      res.status(200).json(booksObject);
+    } catch (err) {
+      res.status(400).json({
+        message: err.message ? err.message : err[0].msg,
+      });
+    }
+  };
+
+  getAllByUser = async (req, res) => {
+    try {
+      Validate.ethAddressParam(req);
+
+      const books = await Books.find({ ethAddress: req.params.ethAddress }).exec();
       let booksObject = JSON.parse(JSON.stringify(books));
       res.status(200).json(booksObject);
     } catch (err) {

@@ -28,7 +28,7 @@ if (cluster.isMaster) {
 
   // Launch Node.js server
   const server = app.listen(port, host, () => {
-    console.log(`Node.js API server is listening on http://${host}:${port}/`);
+    console.log(`Node.js API server is listening on http://${host}:${port}`);
   });
 
   // Exit the process when there is an uncaught exception

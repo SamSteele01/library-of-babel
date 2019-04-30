@@ -105,7 +105,7 @@ class PurchaseCtrl {
             label: req.body.labelHash,
             m: 1,
             n: 1,
-            // expiration_time: expDate, // '2019-05-28T19:37:37Z'
+            // expiration_time: expDate, // '2019-05-28T19:37:37Z' this doesn't work!
             expiration_time: '2019-05-19T12:56:26.976816',
           })
           .end((err, response) => {
