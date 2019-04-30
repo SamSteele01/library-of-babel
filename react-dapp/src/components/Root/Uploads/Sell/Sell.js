@@ -89,13 +89,19 @@ function Sell(props) {
           </div>
           <div className={classes.sectionRight}>
             <div>
-              <TextInput />
+              <TextInput
+                
+              />
             </div>
             <div>
-              <TextInput />
+              <TextInput
+
+              />
             </div>
             <div>
-              <TextInput />
+              <TextInput
+
+              />
             </div>
             <div>
               <TextInput multiline={true} />

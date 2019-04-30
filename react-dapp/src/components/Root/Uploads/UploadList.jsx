@@ -19,10 +19,10 @@ export default class UploadList extends React.Component {
   }
 
   componentDidMount() {
-    this.getPurchases(this.props.account);
+    this.getUploads(this.props.account);
   }
 
-  getPurchases = async (account) => {
+  getUploads = async (account) => {
     try {
       const res = await superagent.get(`http://localhost:8080/uploads/${account}`);
       console.log(res);
@@ -55,14 +55,16 @@ export default class UploadList extends React.Component {
 
     if (this.state.uploadList && this.state.uploadList.length > 0) {
       list = this.state.uploadList.map((upload) => {
+        console.log('UPLOAD', upload);
         return (
           <UCard
-            key={upload.id}
-            id={upload.id}
+            key={upload._id}
+            id={upload._id}
             labelHash={upload.labelHash}
             ipfsPath={upload.ipfsPath}
             title={upload.title}
             image={upload.image}
+            ethPrice={upload.ethPrice}
             view={this.viewFile}
           />
         );
@@ -71,7 +73,7 @@ export default class UploadList extends React.Component {
 
     return (
       <div>
-
+        <hr />
         {this.state.error ? (
           <div>There was an error loading</div>
         ) : (

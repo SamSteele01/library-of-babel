@@ -50,9 +50,9 @@ export default class EbookList extends Component {
 
   getBooks = async () => {
     try {
-      const res = await superagent.get('http://localhost/books');
-      console.log(res);
-      this.setState({ books: res });
+      const res = await superagent.get('http://localhost:8080/books');
+      console.log('books!', res.body);
+      this.setState({ books: res.body });
     } catch (err) {
       console.log(err);
       console.log('The server is not running. Using test data...');
@@ -62,7 +62,7 @@ export default class EbookList extends Component {
 
   view = bookId => {
     // render Purchase component
-    this.props.setBook(this.state.books.filter((book) => book.id === bookId)[0]);
+    this.props.setBook(this.state.books.filter((book) => book._id === bookId)[0]);
   };
 
   render() {
@@ -71,13 +71,13 @@ export default class EbookList extends Component {
       bookList = this.state.books.map((book) => {
         return (
           <Ebook
-            key={book.id}
-            id={book.id}
+            key={book._id}
+            id={book._id}
             labelHash={book.labelHash}
             title={book.title}
             image={book.image}
             desc={book.desc}
-            price={book.finneyPrice}
+            price={book.ethPrice}
             view={this.view}
           />
         );

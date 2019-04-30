@@ -1,8 +1,8 @@
 import React from 'react';
 
 export function withContract(WrappedComponent, abi, address) {
-  console.log('ADDRESS', address);
-  console.log('ABI', abi);
+  // console.log('ADDRESS', address);
+  // console.log('ABI', abi);
   return class extends React.Component {
     constructor(props) {
       super(props);

@@ -31,8 +31,10 @@ export default class Web3Banner extends React.Component {
       this.state.web3Source !== null &&
       this.state.listenerInterval === null
     ) {
-      const listenInterval = setInterval(this.accountListener, 2000);
-      this.setState({ listenerInterval: listenInterval });
+    //   const listenInterval = setInterval(this.accountListener, 2000);
+      // this.setState({ listenerInterval: listenInterval });
+      this.accountListener();
+      this.setState({ listenerInterval: true });
     }
     // if (prevState.account !== this.state.account) {
     //   this.props.accountReady(this.state.account);

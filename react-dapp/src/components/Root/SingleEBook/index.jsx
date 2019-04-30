@@ -12,12 +12,12 @@ export default function SingleEBook({ book, setBook }) {
         Back
       </Button>
       <Ebook
-        key={book.id}
+        key={book._id}
         labelHash={book.labelHash}
         title={book.title}
         image={book.image}
         desc={book.desc}
-        price={book.finneyPrice}
+        price={book.ethPrice}
         purchase={true}
       />
     </div>

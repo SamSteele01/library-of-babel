@@ -1,8 +1,9 @@
 import React, { setGlobal } from 'reactn';
 import ReactDOM from "react-dom";
-import "./styles/index.css";
 import Root from "./components/Root";
 import * as serviceWorker from "./serviceWorker";
+
+import "./styles/index.css";
 
 setGlobal({
   account: null, // local storage?

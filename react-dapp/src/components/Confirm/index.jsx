@@ -42,5 +42,5 @@ Confirm.propTypes = {
   account: PropTypes.string.isRequired,
   contract: PropTypes.object.isRequired,
   labelHash: PropTypes.string.isRequired,
-  finneyPrice: PropTypes.string.isRequired
+  price: PropTypes.string.isRequired
 };
