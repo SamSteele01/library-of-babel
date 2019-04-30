@@ -4,18 +4,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
-/**
- * get contract, call function
- * @arg id, eth, account
- */
 
-export default function Confirm({ account, bookId, contract, price }) {
-  function purchase(bookId) {
+export default function Confirm({ account, contract, labelHash, price }) {
+
+  const utils = window.web3.utils;
+
+  console.log('CONTRACT', contract);
+  function purchase(label) {
     contract.methods
-      .buyAccess(bookId)
+      .purchaseContent(label)
       .send({
         from: account,
-        value: window.web3.utils.toWei(price, "ether")
+        value: utils.toWei(utils.toBN(price), "finney")
         // gas: 3000000
       })
       .on("transactionHash", hash => {
@@ -29,7 +29,9 @@ export default function Confirm({ account, bookId, contract, price }) {
 
   return (
     <div>
-      <Button size="small" color="primary" onClick={purchase(bookId)}>
+      <Button size="small" color="primary"
+        onClick={event => purchase(labelHash)}
+      >
         Confirm purchase
       </Button>
     </div>
@@ -37,7 +39,8 @@ export default function Confirm({ account, bookId, contract, price }) {
 }
 
 Confirm.propTypes = {
-  bookId: PropTypes.string.isRequired,
+  account: PropTypes.string.isRequired,
   contract: PropTypes.object.isRequired,
-  account: PropTypes.string.isRequired
+  labelHash: PropTypes.string.isRequired,
+  finneyPrice: PropTypes.string.isRequired
 };

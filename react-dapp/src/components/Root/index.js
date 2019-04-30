@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useGlobal } from "reactn";
 
 import EbookList from "../Listings";
 import Header from "../Header";
+import Web3Banner from "../Web3Banner";
 import Info from "../Info";
 import Purchase from "../Purchase";
 import Sell from "../Sell";
@@ -11,15 +12,17 @@ import DecryptionStatus from "../DecryptionStatus";
 import "./index.css";
 
 function Root() {
-  const [book, setBook] = useState(null);
+  const [bookId, setBookId] = useState(null);
+  const [displayWeb3] = useGlobal('displayWeb3');
+
   return (
     <div className="Root">
       <Header />
-      {/* ebook list */}
-      {book ? (
-        <Purchase book={book} setBook={setBook} />
+      {displayWeb3 && <Web3Banner />}
+      {bookId ? (
+        <Purchase book={bookId} setBook={setBookId} />
       ) : (
-        <EbookList setBook={setBook} />
+        <EbookList setBook={setBookId} />
       )}
       <Info />
       <Sell />

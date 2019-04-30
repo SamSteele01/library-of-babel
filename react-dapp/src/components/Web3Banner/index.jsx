@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from "reactn";
 import PropTypes from "prop-types";
-import getWeb3 from "../../fortmatic";
+import getWeb3 from "../../getWeb3";
 
 // banner at the top of the page
 // should get web3 from either MetaMask, browser, or Fortmatic
-export default class Web3Banner extends Component {
+export default class Web3Banner extends React.Component {
   static propTypes = {
-    accountReady: PropTypes.func.isRequired
+    // accountReady: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -34,9 +34,9 @@ export default class Web3Banner extends Component {
       const listenInterval = setInterval(this.accountListener, 2000);
       this.setState({ listenerInterval: listenInterval });
     }
-    if (prevState.account !== this.state.account) {
-      this.props.accountReady(this.state.account);
-    }
+    // if (prevState.account !== this.state.account) {
+    //   this.props.accountReady(this.state.account);
+    // }
   }
 
   componentWillUnmount() {
@@ -70,8 +70,9 @@ export default class Web3Banner extends Component {
       if (error) {
         console.log("ERROR", error);
       } else {
-        console.log(accounts); // ['0x...']
+        // console.log(accounts); // ['0x...']
         if (accounts[0] !== this.state.account) {
+          this.setGlobal({ account: accounts[0] });
           this.setState({ account: accounts[0] });
         }
       }
@@ -83,10 +84,10 @@ export default class Web3Banner extends Component {
 
     return (
       <div className="web3-banner">
-        {web3Source && <h2>{web3Source}</h2>}
+        {/* {web3Source && <h2>{web3Source}</h2>} */}
         {networkMessage && <p>{networkMessage}</p>}
         {account ? (
-          <p>using account {account}</p>
+          <p>using {web3Source} account: {account}</p>
         ) : (
           <p>connecting to your account...</p>
         )}

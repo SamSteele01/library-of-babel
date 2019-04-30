@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useGlobal } from "reactn";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -10,6 +10,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import BookIcon from "../../styles/book-icon.png";
+import Confirm from "../Confirm";
+import { withContract } from "../withContract";
+import PaidAccessAbi from '../../contracts/PaidAccessAbi';
+import PaidAccessAddress from '../../contracts/PaidAccessAddress';
 
 const styles = {
   card: {
@@ -23,7 +27,10 @@ const styles = {
 };
 
 function Ebook(props) {
-  const { classes, index, title, image, desc, price, purchase, view } = props;
+  const { classes, id, labelHash, title, image, desc, price, purchase, view } = props;
+  const [account] = useGlobal('account');
+  const [displayWeb3, setDisplayWeb3] = useGlobal('displayWeb3');
+  const ConfirmAndSend = withContract(Confirm, PaidAccessAbi, PaidAccessAddress);
 
   return (
     <Card className={classes.card}>
@@ -43,17 +50,27 @@ function Ebook(props) {
       </CardActionArea>
       <CardActions>
         {purchase && (
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            onClick={event => purchase(true)}
-          >
-            Buy
-          </Button>
+          <div>
+            {account ? (
+              <ConfirmAndSend
+                account={account}
+                labelHash={labelHash}
+                price={price}
+              />
+            ) : (
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={event => setDisplayWeb3(true)}
+                >
+                  Buy
+                </Button>
+            )}
+          </div>
         )}
         {view && (
-          <Button size="small" color="primary" onClick={event => view(index)}>
+          <Button size="small" color="primary" onClick={event => view(id)}>
             Learn More
           </Button>
         )}
