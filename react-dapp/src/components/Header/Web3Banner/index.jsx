@@ -1,6 +1,6 @@
 import React, { Component } from "reactn";
 import PropTypes from "prop-types";
-import getWeb3 from "../../getWeb3";
+import getWeb3 from "../../../getWeb3";
 
 // banner at the top of the page
 // should get web3 from either MetaMask, browser, or Fortmatic

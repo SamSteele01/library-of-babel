@@ -1,6 +1,6 @@
 import React, { useGlobal } from "reactn";
 import Button from "@material-ui/core/Button";
-import Web3Banner from "../Web3Banner";
+import Web3Banner from "./Web3Banner";
 import TabTray from './TabTray/TabTray';
 
 import "./index.css";
