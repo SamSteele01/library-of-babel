@@ -7,6 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 setGlobal({
   account: null, // local storage?
   displayWeb3: false,
+  route: 'listings'
 });
 
 ReactDOM.render(<Root />, document.getElementById("root"));

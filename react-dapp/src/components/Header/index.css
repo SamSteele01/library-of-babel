@@ -1,6 +1,7 @@
 .App-header {
   background-color: #282c34;
   min-height: 10vh;
+  /* height: 80px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,8 +10,42 @@
   color: white;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.App-header h4 {
+  margin: 0;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+}
+
+.header-name-box {
+  padding: 10px;
+  width: 50vw;
+}
+
+/* .header-tabs.color {
+  color: "white"
+} */
+
+.header-button-tray {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-bottom-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+  font-size: calc(7px + 1vmin);
+  width: 100%;
+  height: 30px;
+  background-color: #454f56;
+}
+
+.web3-banner p {
+  margin: 0;
 }
