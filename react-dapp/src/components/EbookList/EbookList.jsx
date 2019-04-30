@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import superagent from 'superagent';
 
 import { CardLoader } from "../common/CardLoader";
-import Ebook from "../Ebook";
+import Ebook from "../common/Ebook";
 
 const bookDataObjects = [
   {

@@ -9,11 +9,12 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import BookIcon from "../../styles/book-icon.png";
-import Confirm from "../Confirm";
+import BookIcon from "../../../styles/book-icon.png";
+import Confirm from "../../Confirm";
+
 import { withContract } from "../withContract";
-import PaidAccessAbi from '../../contracts/PaidAccessAbi';
-import PaidAccessAddress from '../../contracts/PaidAccessAddress';
+import PaidAccessAbi from '../../../contracts/PaidAccessAbi';
+import PaidAccessAddress from '../../../contracts/PaidAccessAddress';
 
 const styles = {
   card: {

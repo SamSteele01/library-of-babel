@@ -1,10 +1,10 @@
-import React, { setGlobal } from 'reactn';
+import React from 'reactn';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
-import Card from './Card';
+import UCard from './UCard';
 import { CardLoader } from '../../common/CardLoader';
 
-export default class PurchaseList extends React.Component {
+export default class UploadList extends React.Component {
 
   static propTypes = {
     account: PropTypes.string.isRequired,
@@ -14,7 +14,7 @@ export default class PurchaseList extends React.Component {
     super(props);
 
     this.state = {
-      purchaseList: null,
+      uploadList: null,
     };
   }
 
@@ -24,11 +24,11 @@ export default class PurchaseList extends React.Component {
 
   getPurchases = async (account) => {
     try {
-      const res = await superagent.get(`http://localhost:8080/purchases/${account}`);
+      const res = await superagent.get(`http://localhost:8080/uploads/${account}`);
       console.log(res);
 
-      this.setGlobal({ purchases: res.body });
-      this.setState({ purchaseList: res.body });
+      this.setGlobal({ uploads: res.body });
+      this.setState({ uploadList: res.body });
     } catch (err) {
       console.log(err);
       // console.log('The server is not running. Using test data...');
@@ -40,7 +40,7 @@ export default class PurchaseList extends React.Component {
   //
   // }
 
-  getBooksFromPurchases = () => {
+  getBooksFromUploads = () => {
     // for each, get book
 
   }
@@ -53,16 +53,16 @@ export default class PurchaseList extends React.Component {
 
     let list = <CardLoader />;
 
-    if (this.state.purchaseList && this.state.purchaseList.length > 0) {
-      list = this.state.purchaseList.map((purchase) => {
+    if (this.state.uploadList && this.state.uploadList.length > 0) {
+      list = this.state.uploadList.map((upload) => {
         return (
-          <Card
-            key={purchase.id}
-            id={purchase.id}
-            labelHash={purchase.labelHash}
-            ipfsPath={purchase.ipfsPath}
-            title={purchase.title}
-            image={purchase.image}
+          <UCard
+            key={upload.id}
+            id={upload.id}
+            labelHash={upload.labelHash}
+            ipfsPath={upload.ipfsPath}
+            title={upload.title}
+            image={upload.image}
             view={this.viewFile}
           />
         );

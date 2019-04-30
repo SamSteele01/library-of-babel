@@ -6,10 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import TextInput from "../common/TextInput";
-import Upload from "../common/Upload";
-import InfoSheet from "../common/InfoSheet";
-import TitleDisplay from "../common/TitleDisplay";
+import TextInput from "../../../common/TextInput";
+import Upload from "../../../common/Upload";
+import InfoSheet from "../../../common/InfoSheet";
+import TitleDisplay from "../../../common/TitleDisplay";
 
 const styles = theme => ({
   root: {

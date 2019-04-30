@@ -1,9 +1,10 @@
 import React, { useState, useGlobal } from "reactn";
 
-import EbookList from "../Listings";
-import Header from "../Header";
-import SingleEBook from "../SingleEBook";
+import EbookList from "../EbookList";
+import Header from "./Header";
+import SingleEBook from "./SingleEBook";
 import Purchases from './Purchases';
+import Uploads from './Uploads';
 // import Info from "../Info";
 // import Sell from "../Sell";
 // import ListingStatus from "../ListingStatus";
@@ -37,7 +38,7 @@ function Root() {
 
       {route === 'uploads' && (
         <div>
-
+          <Uploads />
         </div>
       )}
 

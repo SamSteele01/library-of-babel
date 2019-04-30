@@ -2,7 +2,7 @@ import React from "reactn";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
-import Ebook from "../Ebook";
+import Ebook from "../../common/Ebook";
 
 export default function SingleEBook({ book, setBook }) {
 
