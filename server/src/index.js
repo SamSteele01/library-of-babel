@@ -68,6 +68,7 @@ app.delete('/account', AccountCtrl.delete);
 
 /** make a policy_pubkey from a label
 * @body label
+* @return labelHash and pubKey
 */
 app.post('/get-encrypt-key', BookCtrl.derivePolicyPubkey)
 
@@ -77,8 +78,9 @@ app.get('/books', BookCtrl.getAll);
 // get one book by id
 app.get('/book/:id', BookCtrl.getOne);
 
-/** upload new book, encrypt, store on ipfs, save in db
-* @body title, content, ethPrice, labelHash, ethAddress, pubKey
+/** UPLOAD new book, encrypt, store on ipfs, save in db
+* @body title, content, ethPrice, labelHash, ethAddress
+* @body pubKey - needed after enrico can change on the fly
 * @return bookId, ipfsHash
 */
 app.post('/books', BookCtrl.create);
@@ -96,10 +98,13 @@ app.get('/purchases/:ethAddress', PurchaseCtrl.getAll);
 */
 app.post('/purchase', PurchaseCtrl.create);
 
-// get decryption key for purchased book
+/** get decryption key for purchased book
+* checks contract then calls Alice/grant
+* @body labelHash, ethAddress, purchaseId
+*/
 app.post('/get-decrypt-key', PurchaseCtrl.getDecryptionKey);
 
-// join policy
+// join policy - not working - not sure if needed
 app.post('/join-policy', PurchaseCtrl.joinPolicy);
 
 /** download content with key
