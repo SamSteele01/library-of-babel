@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import superagent from 'superagent';
 
-import { CardLoader } from "../CardLoader";
+import { CardLoader } from "../common/CardLoader";
 import Ebook from "../Ebook";
 
 const bookDataObjects = [

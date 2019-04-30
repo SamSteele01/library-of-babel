@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 
 import Ebook from "../Ebook";
 
-export default function Purchase({ book, setBook }) {
+export default function SingleEBook({ book, setBook }) {
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default function Purchase({ book, setBook }) {
   );
 }
 
-Purchase.propTypes = {
+SingleEBook.propTypes = {
   book: PropTypes.object.isRequired,
   setBook: PropTypes.func.isRequired
 };

@@ -7,7 +7,10 @@ import * as serviceWorker from "./serviceWorker";
 setGlobal({
   account: null, // local storage?
   displayWeb3: false,
-  route: 'listings'
+  route: 'listings',
+  listings: null,
+  purchases: null,
+  uploads: null,
 });
 
 ReactDOM.render(<Root />, document.getElementById("root"));

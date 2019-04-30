@@ -2,12 +2,12 @@ import React, { useState, useGlobal } from "reactn";
 
 import EbookList from "../Listings";
 import Header from "../Header";
-// import Web3Banner from "../Web3Banner";
-import Info from "../Info";
-import Purchase from "../Purchase";
-import Sell from "../Sell";
-import ListingStatus from "../ListingStatus";
-import DecryptionStatus from "../DecryptionStatus";
+import SingleEBook from "../SingleEBook";
+import Purchases from './Purchases';
+// import Info from "../Info";
+// import Sell from "../Sell";
+// import ListingStatus from "../ListingStatus";
+// import DecryptionStatus from "../DecryptionStatus";
 
 import "./index.css";
 
@@ -24,20 +24,22 @@ function Root() {
       {route === 'listings' && (
         <div className='listings'>
           {bookId ? (
-            <Purchase book={bookId} setBook={setBookId} />
+            <SingleEBook book={bookId} setBook={setBookId} />
           ) : (
             <EbookList setBook={setBookId} />
           )}
         </div>
       )}
 
-      {/* {route === 'purchases' && (
-
+      {route === 'purchases' && (
+        <Purchases />
       )}
 
       {route === 'uploads' && (
+        <div>
 
-      )} */}
+        </div>
+      )}
 
       {/* <Info />
       <Sell />
