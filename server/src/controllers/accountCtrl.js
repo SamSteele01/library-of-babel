@@ -7,6 +7,7 @@ class AccountCtrl {
   create = async (req, res) => {
     try {
       /* validate ethAddress */
+      console.log(req.body);
       Validate.ethAddressBody(req);
 
       /* get keys */

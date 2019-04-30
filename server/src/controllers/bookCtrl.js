@@ -10,6 +10,10 @@ const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' 
 
 class BookCtrl {
 
+  /** UPLOAD new book, encrypt, store on ipfs, save in db
+  * @body title, content, ethPrice, labelHash, ethAddress, pubKey
+  * @return bookId, ipfsHash
+  */
   create = async (req, res) => {
     try {
       Validate.createBook(req);
@@ -17,7 +21,7 @@ class BookCtrl {
 
       /** send base 64 content to enrico - for now using:
       * "labelHash": "aXBmcyB0ZXN0IGxhYmVs",
-      * "pubKey": "03050dbdbe6de74937f261ceebaa9f4822f55d90a05a111c4333181f3340c3e856"
+      * "pubKey": "02a1371a45a447ab79de0f9a7d4b91fdb9a37754d3a473fac7b452c14793737aa8"
       * for all uploads */
       let btoaContent = btoa(req.body.content);
       let bufferedContent = await new Promise((resolve, reject) => {
@@ -36,8 +40,8 @@ class BookCtrl {
             }
           });
       })
-
       // console.log('BUFFEREDCONTENT', bufferedContent);
+
         /* save to IPFS */
         let ipfsPath = await new Promise((resolve, reject) => {
           ipfs.add(bufferedContent, (err, ipfsRes) => {
@@ -45,14 +49,12 @@ class BookCtrl {
               console.error(err)
               throw err;
             } else {
-              // console.log('ipfsRes', ipfsRes);
-              // console.log(ipfsRes[0].hash);
               resolve(ipfsRes[0].path);
             }
           })
         })
-
         // console.log('IPFSPATH', ipfsPath);
+
         /* create book */
         let book = new Books({
           // accountId: ??
@@ -60,7 +62,7 @@ class BookCtrl {
           ethPrice: req.body.ethPrice,
           ipfsPath,
           labelHash: req.body.labelHash,
-          policyEncryptingPubkey: "03050dbdbe6de74937f261ceebaa9f4822f55d90a05a111c4333181f3340c3e856",
+          policyEncryptingPubkey: "02a1371a45a447ab79de0f9a7d4b91fdb9a37754d3a473fac7b452c14793737aa8",
           title: req.body.title,
         });
         await book.save();
@@ -139,7 +141,7 @@ class BookCtrl {
             // console.log(data.policy_encrypting_key);
             res.status(200).json({
               labelHash,
-              pubKey: data.policy_encrypting_key
+              pubKey: data.policy_encrypting_key // used to start enrico - later needed for each upload
             });
           }
         });
@@ -164,13 +166,15 @@ class BookCtrl {
           content = ipfsRes[0].content.toString('utf8');
           // test
           res.status(201).json({
-            message: 'Book uploaded.',
             content
           });
         }
       })
-    } catch (e) {
-
+    } catch (err) {
+      console.log('ERR', err);
+      res.status(400).json({
+        message: err.message ? err.message : err,
+      });
     }
   }
 
