@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _accountCtrl = require('./controllers/accountCtrl');
 
 var _accountCtrl2 = _interopRequireDefault(_accountCtrl);
@@ -14,8 +18,9 @@ var _purchaseCtrl2 = _interopRequireDefault(_purchaseCtrl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-require('dotenv').config(); // index.js
+require('dotenv').config(); // app.js
 
+var PrettyError = require('pretty-error');
 var express = require('express');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
@@ -29,7 +34,12 @@ var db = require('./db');
 // const router = express.Router();
 // const app = express();
 
-var port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
+
+var pe = new PrettyError();
+pe.skipNodeFiles();
+pe.skipPackage('express');
+pe.start();
 
 var corsOptionsAll = {
   allowedHeaders: ['content-type', 'authorization', 'content-length', 'x-requested-with', 'accept', 'origin', 'connection', 'upgrade'],
@@ -82,6 +92,9 @@ app.get('/books', _bookCtrl2.default.getAll);
 // get one book by id
 app.get('/book/:id', _bookCtrl2.default.getOne);
 
+// get all books by ethAddress
+app.get('/uploads/:ethAddress', _bookCtrl2.default.getAllByUser);
+
 /** UPLOAD new book, encrypt, store on ipfs, save in db
 * @body title, content, ethPrice, labelHash, ethAddress
 * @body pubKey - needed after enrico can change on the fly
@@ -116,24 +129,8 @@ app.post('/join-policy', _purchaseCtrl2.default.joinPolicy);
 */
 app.post('/download', _purchaseCtrl2.default.download);
 
-/* Alice */
-
-// /derive_policy_pubkey
-
-// grant
-
-/* Bob */
-
-// retrieve
-
-/* Enrico */
-
-// encrypt message
-
-/* Ursula */
-
 app.get('/test', function (req, res) {
-  return res.send('Hello World!');
+  return res.send('The Library of Babel server works!');
 });
 
 app.use(function (err, req, res, next) {
@@ -141,6 +138,4 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Uncaught error!');
 });
 
-app.listen(port, function () {
-  console.log('Server is up and running on port number ' + port);
-});
+exports.default = app;

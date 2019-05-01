@@ -5,11 +5,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 mongoose.plugin(require('mongoose-unique-validator'), {
-  address: 'address already exists.'
+  ethAddress: 'ethAddress already exists.'
 });
 
 var AccountSchema = new Schema({
-  address: { type: String, required: true, unique: true },
+  ethAddress: { type: String, required: true, unique: true },
   signingKey: { type: String },
   encryptingKey: { type: String }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
