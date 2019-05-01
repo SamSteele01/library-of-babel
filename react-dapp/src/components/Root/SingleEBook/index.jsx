@@ -4,13 +4,17 @@ import Button from "@material-ui/core/Button";
 
 import Ebook from "../../common/Ebook";
 
+// should wrap with contract here
+
 export default function SingleEBook({ book, setBook }) {
 
   return (
     <div>
-      <Button size="small" color="primary" onClick={event => setBook(null)}>
-        Back
-      </Button>
+
+        <Button size="small" color="primary" onClick={event => setBook(null)}>
+          Back
+        </Button>
+
       <Ebook
         key={book._id}
         labelHash={book.labelHash}

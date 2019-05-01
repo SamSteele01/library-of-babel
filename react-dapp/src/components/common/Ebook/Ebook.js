@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import superagent from 'superagent';
 
 import BookIcon from "../../../styles/book-icon.png";
 import Confirm from "../../Confirm";
@@ -33,6 +34,24 @@ function Ebook(props) {
   const [displayWeb3, setDisplayWeb3] = useGlobal('displayWeb3');
   const ConfirmAndSend = withContract(Confirm, PaidAccessAbi, PaidAccessAddress);
 
+  async function recordInDB(txn) {
+      try {
+        const res = await superagent.post('http://localhost:8080/purchase')
+        .send({
+          bookId: id,
+          ethAddress: account,
+          labelHash,
+          txn
+        });
+        console.log('purchase recorded!', res.body);
+        // display component ...
+      } catch (err) {
+        console.log(err);
+        console.log('The server is not running. Using test data...');
+        // this.setState({ books: bookDataObjects });
+      }
+    };
+
   return (
     <Card className={classes.card}>
       <CardActionArea>
@@ -57,6 +76,7 @@ function Ebook(props) {
                 account={account}
                 labelHash={labelHash}
                 price={price}
+                recordInDB={recordInDB}
               />
             ) : (
               <Button
