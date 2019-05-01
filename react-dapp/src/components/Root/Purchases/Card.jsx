@@ -4,12 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import TextField from "@material-ui/core/TextField";
+// import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+// import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+// import SkipNextIcon from '@material-ui/icons/SkipNext';
 import BookIcon from "../../../styles/book-icon.png";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   card: {
@@ -38,7 +40,7 @@ const styles = theme => ({
 });
 
 function MediaControlCard(props) {
-  const { classes, theme, id, labelHash, ipfsPath, title, image, view } = props;
+  const { classes, theme, id, labelHash, ipfsPath, title, image, decryptKey, getDecryptKey, viewFile } = props;
 
   return (
     <Card className={classes.card}>
@@ -57,15 +59,23 @@ function MediaControlCard(props) {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          {/* <IconButton aria-label="Previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-          </IconButton>
-          <IconButton aria-label="Play/pause">
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
-          <IconButton aria-label="Next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton> */}
+          <Button size="small" color="primary" onClick={getDecryptKey}>
+            Get Key
+          </Button>
+          <TextField
+            id="outlined-read-only-input"
+            // className={classNames(classes.margin, classes.textField)}
+            variant="outlined"
+            label="Decrypt Key"
+            value={decryptKey}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+
+          <Button size="small" color="primary" onClick={viewFile}>
+            View File
+          </Button>
         </div>
       </div>
     </Card>

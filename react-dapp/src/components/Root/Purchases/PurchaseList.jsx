@@ -49,6 +49,14 @@ export default class PurchaseList extends React.Component {
 
   }
 
+  decryptKey = () => {
+
+  }
+
+  getDecryptKey = () => {
+    
+  }
+
   render() {
 
     let list = <CardLoader />;
@@ -64,7 +72,9 @@ export default class PurchaseList extends React.Component {
             ipfsPath={purchase.ipfsPath}
             title={purchase.title}
             image={purchase.image}
-            view={this.viewFile}
+            viewFile={this.viewFile}
+            decryptKey={this.decryptKey}
+            getDecryptKey={this.getDecryptKey}
           />
         );
       })
