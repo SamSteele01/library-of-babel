@@ -50,14 +50,14 @@ function MediaControlCard(props) {
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
-            Live From Space
+            {title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
+            Lorem ipsum dolor amet thundercats deep v trust fund, freegan hammock pop-up godard hella forage.
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <IconButton aria-label="Previous">
+          {/* <IconButton aria-label="Previous">
             {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
           </IconButton>
           <IconButton aria-label="Play/pause">
@@ -65,7 +65,7 @@ function MediaControlCard(props) {
           </IconButton>
           <IconButton aria-label="Next">
             {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
     </Card>

@@ -12,6 +12,7 @@ setGlobal({
   listings: null,
   purchases: null,
   uploads: null,
+  serverUrl: 'http://0adbee1b.ngrok.io'
 });
 
 ReactDOM.render(<Root />, document.getElementById("root"));

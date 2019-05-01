@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useGlobal } from "reactn";
 import PropTypes from "prop-types";
 import superagent from 'superagent';
 
@@ -31,7 +31,7 @@ const bookDataObjects = [
   }
 ];
 
-export default class EbookList extends Component {
+export default class EbookList extends React.Component {
   static propTypes = {
     setBook: PropTypes.func.isRequired
   };
@@ -50,7 +50,7 @@ export default class EbookList extends Component {
 
   getBooks = async () => {
     try {
-      const res = await superagent.get('http://localhost:8080/books');
+      const res = await superagent.get(`${this.global.serverUrl}/books`);
       console.log('books!', res.body);
       this.setState({ books: res.body });
     } catch (err) {

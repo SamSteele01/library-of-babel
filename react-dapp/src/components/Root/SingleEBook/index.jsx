@@ -17,6 +17,7 @@ export default function SingleEBook({ book, setBook }) {
 
       <Ebook
         key={book._id}
+        id={book._id}
         labelHash={book.labelHash}
         title={book.title}
         image={book.image}

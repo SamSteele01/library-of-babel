@@ -8,7 +8,7 @@
     "build-babel": "babel src -d dist",
     "clean": "rm -rf dist && mkdir dist",
     "cluster": "nodemon --delay 1 src/cluster.js --exec babel-node",
-    "server": "node dist/index.js",
+    "server": "node dist/cluster.js",
     "start": "nodemon --delay 1 src/index.js --exec babel-node",
     "test": "test-server"
   },

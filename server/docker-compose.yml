@@ -4,12 +4,16 @@ services:
   #   build: .
   #   # image: node:10.15.3-alpine
   #   ports:
-  #     - 8080:8080
+  #     # - "127.0.0.1:3002:3002"
+  #     - "8080:8080"
+  #     # - "3002:3002"
   #     # - 3000:3000 #DEV
   #   #NOTE: sleep 5 to give mongodb time to actually start
   #   # python needed for node-gyp
   #   # command: sh -c "apk update && apk add python && yarn install && sleep 5 && yarn run server"
   #   command: sh -c "yarn install && node dist/cluster.js"
+  #   # environment:
+  #     # HTTP_PROXY: "http://127.0.0.1:3002"
   #   working_dir: /app
   #   env_file: .env
   #   volumes:
@@ -81,6 +85,7 @@ services:
     tty: true
 
 volumes:
+  # api:
   mongo:
   nucypher-alice:
   nucypher-bob:

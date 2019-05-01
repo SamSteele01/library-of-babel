@@ -24,7 +24,7 @@ export default class UploadList extends React.Component {
 
   getUploads = async (account) => {
     try {
-      const res = await superagent.get(`http://localhost:8080/uploads/${account}`);
+      const res = await superagent.get(`${this.global.serverUrl}/uploads/${account}`);
       console.log(res);
 
       this.setGlobal({ uploads: res.body });

@@ -1,4 +1,4 @@
-import React, { setGlobal } from 'reactn';
+import React, { useGlobal, setGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
 import Card from './Card';
@@ -24,7 +24,7 @@ export default class PurchaseList extends React.Component {
 
   getPurchases = async (account) => {
     try {
-      const res = await superagent.get(`http://localhost:8080/purchases/${account}`);
+      const res = await superagent.get(`${this.global.serverUrl}/purchases/${account}`);
       console.log(res);
 
       this.setGlobal({ purchases: res.body });
@@ -55,6 +55,7 @@ export default class PurchaseList extends React.Component {
 
     if (this.state.purchaseList && this.state.purchaseList.length > 0) {
       list = this.state.purchaseList.map((purchase) => {
+        console.log('PURCHASE', purchase);
         return (
           <Card
             key={purchase.id}

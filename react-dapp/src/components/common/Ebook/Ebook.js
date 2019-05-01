@@ -31,12 +31,19 @@ const styles = {
 function Ebook(props) {
   const { classes, id, labelHash, title, image, desc, price, purchase, view } = props;
   const [account] = useGlobal('account');
+  const [serverUrl] = useGlobal('serverUrl');
   const [displayWeb3, setDisplayWeb3] = useGlobal('displayWeb3');
   const ConfirmAndSend = withContract(Confirm, PaidAccessAbi, PaidAccessAddress);
 
   async function recordInDB(txn) {
       try {
-        const res = await superagent.post('http://localhost:8080/purchase')
+        console.log({
+          bookId: id,
+          ethAddress: account,
+          labelHash,
+          txn
+        });
+        const res = await superagent.post(`${serverUrl}/purchase`)
         .send({
           bookId: id,
           ethAddress: account,

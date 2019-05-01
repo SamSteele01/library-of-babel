@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -52,7 +52,7 @@ class Create extends React.Component {
   getPubKey = async (event, label) => {
     try {
       event.preventDefault();
-      const res = await superagent.post('http://localhost:8080/get-encrypt-key')
+      const res = await superagent.post(`${this.global.serverUrl}/get-encrypt-key`)
       .send({ label });
       console.log(res.body);
       this.setState({
@@ -83,7 +83,7 @@ class Create extends React.Component {
   saveToDB = async (event) => {
     try {
       event.preventDefault();
-      const res = await superagent.post('http://localhost:8080/books')
+      const res = await superagent.post(`${this.global.serverUrl}/books`)
       .send({
         labelHash: this.state.labelHash,
         ethAddress: this.props.account,
