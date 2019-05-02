@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var mongoDB = process.env.MONGODB_URI || 'mongodb://mongo:27017/libraryOfBabel';
 
 mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 mongoose.Promise = global.Promise;
 
 var db = mongoose.connection;

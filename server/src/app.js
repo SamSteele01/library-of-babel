@@ -1,8 +1,9 @@
-// index.js
+// app.js
 import AccountCtrl from './controllers/accountCtrl';
 import BookCtrl from './controllers/bookCtrl';
 import PurchaseCtrl from './controllers/purchaseCtrl';
 require('dotenv').config();
+const PrettyError = require('pretty-error');
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -16,7 +17,12 @@ const db = require('./db');
 // const router = express.Router();
 // const app = express();
 
-const port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
+
+const pe = new PrettyError();
+pe.skipNodeFiles();
+pe.skipPackage('express');
+pe.start();
 
 const corsOptionsAll = {
   allowedHeaders: [
@@ -40,8 +46,8 @@ const corsOptionsAll = {
 // initialize our express ap
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(expressValidator());
 
 /* so we can get the client's IP address */
@@ -78,6 +84,9 @@ app.get('/books', BookCtrl.getAll);
 // get one book by id
 app.get('/book/:id', BookCtrl.getOne);
 
+// get all books by ethAddress
+app.get('/uploads/:ethAddress', BookCtrl.getAllByUser);
+
 /** UPLOAD new book, encrypt, store on ipfs, save in db
 * @body title, content, ethPrice, labelHash, ethAddress
 * @body pubKey - needed after enrico can change on the fly
@@ -112,29 +121,12 @@ app.post('/join-policy', PurchaseCtrl.joinPolicy);
 */
 app.post('/download', PurchaseCtrl.download);
 
-/* Alice */
 
-// /derive_policy_pubkey
-
-// grant
-
-/* Bob */
-
-// retrieve
-
-/* Enrico */
-
-// encrypt message
-
-/* Ursula */
-
-app.get('/test', (req, res) => res.send('Hello World!'));
+app.get('/test', (req, res) => res.send('The Library of Babel server works!'));
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Uncaught error!');
 });
 
-app.listen(port, () => {
-  console.log('Server is up and running on port number ' + port);
-});
+export default app;

@@ -86,12 +86,13 @@ class PurchaseCtrl {
       // console.log('ACCOUNTOBJECT', accountObject);
 
       /* get purchase */
-      let purchase = await Purchases.findById(req.body.purchaseId).exec();
-      let purchaseObject = JSON.parse(JSON.stringify(purchase));
+      // let purchase = await Purchases.findById(req.body.purchaseId).exec();
+      // let purchaseObject = JSON.parse(JSON.stringify(purchase));
       // console.log('purchaseOBJECT', purchaseObject);
+      // if (purchaseObject === null) throw "No purchase found with that id."
 
       let expDate = moment().add(1, 'months').utc().format();
-      // console.log('EXPDATE', expDate);
+      console.log('EXPDATE', expDate);
 
       // console.log('ACCOUNTOBJECT.ENCRYPTINGKEY', accountObject.encryptingKey);
       /* get key from Alice */
@@ -102,14 +103,14 @@ class PurchaseCtrl {
             bob_encrypting_key: accountObject.encryptingKey,
             bob_signing_key: accountObject.signingKey,
             label: req.body.labelHash,
-            m: 5,
-            n: 10,
-            // expiration_time: expDate, // '2019-02-19T12:56:26.976816'
-            expiration_time: '2019-02-19T12:56:26.976816',
+            m: 1,
+            n: 1,
+            // expiration_time: expDate, // '2019-05-28T19:37:37Z' this doesn't work!
+            expiration_time: '2019-05-19T12:56:26.976816',
           })
           .end((err, response) => {
             if (err) {
-              console.log('RESPONSE', response);
+              console.log('RESPONSE', response.text);
               throw err;
             } else {
               console.log('ALICE RESPONSE', JSON.parse(response.text).result);
@@ -118,14 +119,21 @@ class PurchaseCtrl {
             }
           });
       });
+      console.log('RESULT', result.alice_signing_key);
 
       /* update with key */
-      // await purchase.update({ aliceSigningPubkey: result.alice_signing_pubkey });
+      await Purchases.updateOne({ _id: req.body.purchaseId}, {
+        aliceSigningPubkey: result.alice_signing_key,
+        policyEncryptingPubkey: result.policy_encrypting_key,
+      });
 
-      res.status(200).json({ key: "req.body.key" });
+      res.status(200).json({
+        aliceSigningPubkey: result.alice_signing_key,
+        policyEncryptingPubkey: result.policy_encrypting_key,
+      });
     } catch (err) {
       res.status(400).json({
-        message: err.message ? err.message : err[0].msg,
+        message: err.message ? err.message : err,
       });
     }
   };
@@ -134,13 +142,14 @@ class PurchaseCtrl {
     try {
       /* send request to Bob */
       superagent
-        .put('localhost:11151/join-policy') // bob node
+        .post('http://localhost:11151/join-policy') // bob node
         .send({
-          alice_signing_pubkey: req.body.key,
+          alice_signing_pubkey: req.body.aliceSigningPubkey,
           label: req.body.labelHash,
         })
         .end((err, response) => {
           if (err) {
+            console.log('ERR', err);
             throw err;
           } else {
             console.log('BOB RESPONSE', response);
@@ -158,52 +167,62 @@ class PurchaseCtrl {
 
   download = async (req, res) => {
     try {
-      /* look up bookId and aliceSigningPubkey from purchaseId or expect in req.body */
+      /* look up bookId and aliceSigningPubkey from purchaseId */
+      // Validate.purchaseId(req);
+
+      /* or expect in req.body */
       Validate.download(req);
 
       /* look up ipfsPath, labelHash, and pubKey from bookId */
       let book = await Books.findById(req.body.bookId).exec();
       let bookObject = JSON.parse(JSON.stringify(book));
-      console.log('bookObject', bookObject);
+      // console.log('bookObject', bookObject);
 
       /* get data from IPFS */
       let encryptedContent = await new Promise(resolve => {
         ipfs.get(bookObject.ipfsPath, (err, ipfsData) => {
           if (err) {
             console.error(err);
+            throw err;
           } else {
-            console.log('DATA', data);
-            let data = JSON.parse(ipfsData[0].content);
-            resolve(Buffer.from(JSON.stringify(data)));
+            resolve(JSON.parse(ipfsData[0].content.toString())); // content.type === 'Buffer'
           }
         })
       })
-      console.log('encryptedContent', encryptedContent);
 
       /* send request to Bob */
-      let decryptedContent = await new Promise(resolve => {
-        superagent
-          .post('localhost:11151/retrieve') // bob node
-          .send({
-            label: bookObject.labelHash,
-            alice_signing_pubkey: req.body.aliceSigningPubkey,
-            policy_encrypting_pubkey: bookObject.policyEncryptingPubkey,
-            datasource_signing_pubkey: encryptedContent.signature, // signature
-            message_kit: encryptedContent.message_kit
-          })
-          .end((err, response) => {
-            if (err) {
-              throw err;
-            } else {
-              console.log('BOB RESPONSE', response);
-              // JSON.parse(Buffer.from(bobRes.result.plaintext[0], 'base64').toString('utf-8'))
 
-            }
-          });
-      })
-      console.log('DECRYPTEDCONTENT', decryptedContent);
+      /**
+      * this isn't working due to an issue with NuCypher :(
+      */
 
-      res.status(200).json(decryptedContent);
+      // let decryptedContent = await new Promise(resolve => {
+      //   superagent
+      //     .post('http://localhost:11151/retrieve')
+      //     .send({
+      //       label: bookObject.labelHash,
+      //       alice_signing_pubkey: req.body.aliceSigningPubkey,
+      //       policy_encrypting_pubkey: bookObject.policyEncryptingPubkey,
+      //       datasource_signing_pubkey: encryptedContent.signature, // not needed?
+      //       message_kit: encryptedContent.message_kit
+      //     })
+      //     .end((err, response) => {
+      //       if (err) {
+      //         console.log('ERR', err);
+      //         console.log('BOB RESPONSE', response);
+      //         throw err; // crashes server with 500 error
+      //       } else {
+      //         console.log('BOB RESPONSE', response);
+      //         // JSON.parse(Buffer.from(bobRes.result.plaintext[0], 'base64').toString('utf-8'))
+      //
+      //       }
+      //     });
+      // })
+      // console.log('DECRYPTEDCONTENT', decryptedContent);
+
+      res.status(200).json({
+        contents: encryptedContent.message_kit
+      });
     } catch (err) {
       res.status(400).json({
         message: err.message ? err.message : err[0].msg,

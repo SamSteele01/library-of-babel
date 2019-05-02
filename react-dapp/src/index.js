@@ -1,8 +1,19 @@
-import React from "react";
+import React, { setGlobal } from 'reactn';
 import ReactDOM from "react-dom";
-import "./styles/index.css";
 import Root from "./components/Root";
 import * as serviceWorker from "./serviceWorker";
+
+import "./styles/index.css";
+
+setGlobal({
+  account: null, // local storage?
+  displayWeb3: false,
+  route: 'listings',
+  listings: null,
+  purchases: null,
+  uploads: null,
+  serverUrl: 'http://0adbee1b.ngrok.io'
+});
 
 ReactDOM.render(<Root />, document.getElementById("root"));
 

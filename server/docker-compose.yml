@@ -4,12 +4,16 @@ services:
   #   build: .
   #   # image: node:10.15.3-alpine
   #   ports:
-  #     - 8080:8080
+  #     # - "127.0.0.1:3002:3002"
+  #     - "8080:8080"
+  #     # - "3002:3002"
   #     # - 3000:3000 #DEV
   #   #NOTE: sleep 5 to give mongodb time to actually start
   #   # python needed for node-gyp
   #   # command: sh -c "apk update && apk add python && yarn install && sleep 5 && yarn run server"
-  #   command: sh -c "yarn install && yarn run server"
+  #   command: sh -c "yarn install && node dist/cluster.js"
+  #   # environment:
+  #     # HTTP_PROXY: "http://127.0.0.1:3002"
   #   working_dir: /app
   #   env_file: .env
   #   volumes:
@@ -62,7 +66,8 @@ services:
     tty: true
 
   nucypher-enrico:
-    command: nucypher enrico run --policy-encrypting-key 03050dbdbe6de74937f261ceebaa9f4822f55d90a05a111c4333181f3340c3e856
+    #                                enter pubKey here      v-----v-------v---------v------------v---------------v
+    command: nucypher enrico run --policy-encrypting-key 02f8307b7db84ff2527c43a876031889af2de2c48537e9acd3a8b82c0173de655f
     environment:
       - NUCYPHER_SENTRY_LOGS=0
     # depends_on:
@@ -80,6 +85,7 @@ services:
     tty: true
 
 volumes:
+  # api:
   mongo:
   nucypher-alice:
   nucypher-bob:

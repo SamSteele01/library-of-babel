@@ -5,13 +5,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BookSchema = new Schema({
-  address: { type: String, required: true },
-  label: { type: String, required: true },
-  policyEncryptingPubkey: { type: String, required: true },
-  ipfsHash: { type: String },
+  /* create */
+  // accountId: { type: String, required: true }, // uploader
+  ethAddress: { type: String, required: true }, // uploader
   ethPrice: { type: String, required: true },
+  ipfsPath: { type: String, required: true },
+  labelHash: { type: String, required: true },
+  policyEncryptingPubkey: { type: String, required: true },
+  /* update */
+  descLong: { type: String },
+  descShort: { type: String },
   image: { type: Buffer },
-  desc: { type: String },
   title: { type: String }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 

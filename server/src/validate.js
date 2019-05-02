@@ -44,6 +44,8 @@ class Validate {
   createBook = (req) => {
     req.checkBody('content', 'The content cannot be empty').notEmpty();
     req.checkBody('ethPrice', 'The ethPrice cannot be empty').notEmpty();
+    // req.checkBody('pubKey', 'The pubKey cannot be empty').notEmpty();
+    req.checkBody('title', 'The title cannot be empty').notEmpty();
     let errors = req.validationErrors();
     if (errors) throw errors;
   }

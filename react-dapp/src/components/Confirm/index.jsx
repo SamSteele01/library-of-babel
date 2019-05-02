@@ -4,22 +4,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
-/**
- * get contract, call function
- * @arg id, eth, account
- */
 
-export default function Confirm({ account, bookId, contract, price }) {
-  function purchase(bookId) {
+export default function Confirm({ account, contract, labelHash, price, recordInDB }) {
+
+  const utils = window.web3.utils;
+
+  // TODO this should come from the web3banner
+  function purchase(label) {
     contract.methods
-      .buyAccess(bookId)
+      .purchaseContent(label)
       .send({
         from: account,
-        value: window.web3.utils.toWei(price, "ether")
-        // gas: 3000000
+        value: utils.toWei(utils.toBN(price), "finney"),
+        gas: 3000000
       })
       .on("transactionHash", hash => {
-        console.log(hash);
+        console.log('hash', hash);
+        recordInDB(hash);
       })
       .on("receipt", receipt => {
         console.log(receipt);
@@ -27,9 +28,13 @@ export default function Confirm({ account, bookId, contract, price }) {
       .on("error", console.error);
   }
 
+
+
   return (
     <div>
-      <Button size="small" color="primary" onClick={purchase(bookId)}>
+      <Button size="small" color="primary"
+        onClick={event => purchase(labelHash)}
+      >
         Confirm purchase
       </Button>
     </div>
@@ -37,7 +42,8 @@ export default function Confirm({ account, bookId, contract, price }) {
 }
 
 Confirm.propTypes = {
-  bookId: PropTypes.string.isRequired,
+  account: PropTypes.string.isRequired,
   contract: PropTypes.object.isRequired,
-  account: PropTypes.string.isRequired
+  labelHash: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired
 };

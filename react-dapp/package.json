@@ -13,6 +13,8 @@
     "react-content-loader": "^4.2.1",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
+    "reactn": "^1.0.0",
+    "superagent": "^5.0.5",
     "typescript": "^3.4.5",
     "web3": "^1.0.0-beta.52"
   },

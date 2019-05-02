@@ -1,6 +1,6 @@
 import React from "react";
-import classNames from "classnames";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -31,7 +31,7 @@ class TextInput extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, label } = this.props;
 
     return (
       <div className={classes.root}>
@@ -39,10 +39,10 @@ class TextInput extends React.Component {
           id="outlined-adornment-weight"
           className={classNames(classes.margin, classes.textField)}
           variant="outlined"
-          label="Input"
-          value={this.state.Input}
-          onChange={this.handleChange("input")}
-          helperText="Input"
+          label={label}
+          value={this.state.input}
+          onChange={this.handleChange(label)}
+          // helperText="Input"
           multiline={this.props.multiline}
           rows="6"
         />
